@@ -2,8 +2,9 @@
 
 describe('Directive: direct', function () {
 
-  // load the directive's module
+  // load the directive's module and view
   beforeEach(module('ngApp'));
+  beforeEach(module('components/direct/direct.html'));
 
   var element, scope;
 

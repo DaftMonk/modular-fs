@@ -18,8 +18,17 @@ module.exports = function(config) {
       'client/bower_components/angular-sanitize/angular-sanitize.js',
       'client/bower_components/angular-route/angular-route.js',
       'client/*.js',
+      'client/components/**/*.html',
       'client/components/**/*.js'
     ],
+
+    preprocessors: {
+      'client/components/**/*.html': 'html2js'
+    },
+
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'client/'
+    },
 
     // list of files / patterns to exclude
     exclude: [],
