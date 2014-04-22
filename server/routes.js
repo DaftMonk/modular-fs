@@ -1,8 +1,8 @@
 'use strict';
 
-var load = require('../config/load'),
+var load = require('./config/load'),
     path = require('path'),
-    notFound = require('../config/404');
+    notFound = require('./config/404');
 
 /**
  * Main application routes
@@ -10,7 +10,7 @@ var load = require('../config/load'),
 module.exports = function(app) {
 
   // Load all component route files
-  load.byExt('./lib/components/', '.js').forEach(function(routeFile) {
+  load.byExt('server/components/', '.js').forEach(function(routeFile) {
     require(path.resolve(routeFile))(app);
   });
 

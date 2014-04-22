@@ -1,11 +1,11 @@
 'use strict';
 
 var should = require('should'),
-    app = require('../../../server'),
+    app = require('../../app'),
     request = require('supertest');
 
 describe('GET /api/awesomeThings', function() {
-  
+
   it('should respond with JSON array', function(done) {
     request(app)
       .get('/api/awesomeThings')

@@ -22,7 +22,7 @@ module.exports = function (grunt) {
     // Project settings
     yeoman: {
       // configurable paths
-      app: require('./bower.json').appPath || 'app',
+      app: require('./bower.json').appPath || 'client',
       dist: 'dist'
     },
     express: {
@@ -31,13 +31,13 @@ module.exports = function (grunt) {
       },
       dev: {
         options: {
-          script: 'server.js',
+          script: 'server/app.js',
           debug: true
         }
       },
       prod: {
         options: {
-          script: 'dist/server.js',
+          script: 'dist/server/app.js',
           node_env: 'production'
         }
       }
@@ -49,18 +49,18 @@ module.exports = function (grunt) {
     },
     watch: {
       js: {
-        files: ['<%= yeoman.app %>/components/{,*/}*.js', '!<%= yeoman.app %>/components/{,*/}*_spec.js'],
+        files: ['<%= yeoman.app %>/components/{,*/}*.js', '!<%= yeoman.app %>/components/{,*/}*.spec.js'],
         tasks: ['injector:app', 'newer:jshint:all'],
         options: {
           livereload: true
         }
       },
       mochaTest: {
-        files: ['lib/components/{,*/}*_spec.js'],
+        files: ['server/components/{,*/}*.spec.js'],
         tasks: ['env:test', 'mochaTest']
       },
       jsTest: {
-        files: ['<%= yeoman.app %>/components/{,*/}*_spec.js'],
+        files: ['<%= yeoman.app %>/components/{,*/}*.spec.js'],
         tasks: ['newer:jshint:all', 'karma']
       },
       compass: {
@@ -85,8 +85,7 @@ module.exports = function (grunt) {
       },
       express: {
         files: [
-          'server.js',
-          'lib/**/*.{js,json}'
+          'server/**/*.{js,json}'
         ],
         tasks: ['newer:jshint:server', 'express:dev', 'wait'],
         options: {
@@ -104,13 +103,13 @@ module.exports = function (grunt) {
       },
       server: {
         options: {
-          jshintrc: 'lib/.jshintrc'
+          jshintrc: 'server/.jshintrc'
         },
-        src: [ 'lib/{,*/}*.js']
+        src: [ 'server/{,*/}*.js']
       },
       all: [
         '<%= yeoman.app %>/components/{,*/}*.js',
-        '<%= yeoman.app %>/components/{,*/}*_spec.js'
+        '<%= yeoman.app %>/components/{,*/}*.spec.js'
       ]
     },
 
@@ -368,9 +367,7 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.dist %>',
           src: [
             'package.json',
-            'server.js',
-            'lib/**/*',
-            'config/**/*'
+            'server/**/*'
           ]
         }]
       },
@@ -419,7 +416,7 @@ module.exports = function (grunt) {
       options: {
         reporter: 'spec'
       },
-      src: ['lib/components/{,*/}*_spec.js']
+      src: ['server/components/{,*/}*.spec.js']
     },
 
     env: {
@@ -436,7 +433,7 @@ module.exports = function (grunt) {
       app: {
         options: {
           transform: function(filePath) {
-            filePath = path.relative('/app/', filePath);
+            filePath = path.relative('/client/', filePath).replace(/\\/g, '/');
             return '<script src="' + filePath + '"></script>';
           },
           starttag: '<!-- injector:{{ext}} -->',
@@ -446,7 +443,7 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/index.html': [
             '<%= yeoman.app %>/app.js',
             '<%= yeoman.app %>/components/{,*/}*.js',
-            '!<%= yeoman.app %>/components/{,*/}*_spec.js'
+            '!<%= yeoman.app %>/components/{,*/}*.spec.js'
           ]
         }
       },
@@ -455,8 +452,7 @@ module.exports = function (grunt) {
       sass: {
         options: {
           transform: function(filePath) {
-            filePath = path.relative('/app/', filePath);
-            filePath = filePath.replace(/\\/g, '/');
+            filePath = path.relative('/client/', filePath).replace(/\\/g, '/');
             return '@import \'' + filePath + '\';';
           },
           starttag: '// injector',

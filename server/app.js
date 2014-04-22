@@ -13,8 +13,8 @@ var config = require('./config/config');
 
 // Setup Express
 var app = express();
-require('./lib/express')(app);
-require('./lib/routes')(app);
+require('./config/express')(app);
+require('./routes')(app);
 
 // Start server
 app.listen(config.port, config.ip, function () {
