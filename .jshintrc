@@ -30,6 +30,9 @@
     "module": true,
     "inject": true,
     "it": true,
-    "expect": true
+    "expect": true,
+    "browser": true,
+    "element": true,
+    "by": true
   }
 }

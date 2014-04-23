@@ -49,7 +49,7 @@ module.exports = function (grunt) {
     },
     watch: {
       js: {
-        files: ['<%= yeoman.app %>/components/{,*/}*.js', '!<%= yeoman.app %>/components/{,*/}*.spec.js'],
+        files: ['<%= yeoman.app %>/components/{,*/}*.js', '!<%= yeoman.app %>/components/{,*/}*.{spec,e2e}.js'],
         tasks: ['injector:app', 'newer:jshint:all'],
         options: {
           livereload: true
@@ -109,7 +109,7 @@ module.exports = function (grunt) {
       },
       all: [
         '<%= yeoman.app %>/components/{,*/}*.js',
-        '<%= yeoman.app %>/components/{,*/}*.spec.js'
+        '<%= yeoman.app %>/components/{,*/}*.{spec,e2e}.js'
       ]
     },
 
@@ -419,6 +419,19 @@ module.exports = function (grunt) {
       src: ['server/components/{,*/}*.spec.js']
     },
 
+    protractor: {
+      options: {
+        configFile: 'protractor.conf.js'
+      },
+      chrome: {
+        options: {
+          args: {
+            browser: 'chrome'
+          }
+        }
+      }
+    },
+
     env: {
       test: {
         NODE_ENV: 'test'
@@ -443,7 +456,7 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/index.html': [
             '<%= yeoman.app %>/app.js',
             '<%= yeoman.app %>/components/{,*/}*.js',
-            '!<%= yeoman.app %>/components/{,*/}*.spec.js'
+            '!<%= yeoman.app %>/components/{,*/}*.{spec,e2e}.js'
           ]
         }
       },
@@ -526,6 +539,7 @@ module.exports = function (grunt) {
 
     else if (target === 'client') {
       return grunt.task.run([
+        'env:test',
         'clean:server',
         'concurrent:test',
         'autoprefixer',
@@ -533,9 +547,25 @@ module.exports = function (grunt) {
       ]);
     }
 
+    else if (target === 'e2e') {
+      return grunt.task.run([
+        'env:test',
+        'clean:server',
+        'concurrent:test',
+        'autoprefixer',
+        'express:dev',
+        'protractor'
+      ]);
+    }
+
     else grunt.task.run([
-      'test:server',
-      'test:client'
+      'env:test',
+      'clean:server',
+      'concurrent:test',
+      'autoprefixer',
+      'mochaTest',
+      'karma',
+      'protractor'
     ]);
   });
 

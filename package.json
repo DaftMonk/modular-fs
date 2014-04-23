@@ -66,12 +66,14 @@
     "open": "~0.0.4",
     "grunt-angular-templates": "^0.5.4",
     "grunt-dom-munger": "^3.4.0",
-    "grunt-injector": "^0.5.2"
+    "grunt-injector": "^0.5.2",
+    "grunt-protractor-runner": "^0.2.4"
   },
   "engines": {
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "install": "node_modules/grunt-protractor-runner/node_modules/.bin/webdriver-manager update"
   }
 }

@@ -31,7 +31,7 @@ module.exports = function(config) {
     },
 
     // list of files / patterns to exclude
-    exclude: [],
+    exclude: ['**/*.e2e.js'],
 
     // web server port
     port: 8080,
