@@ -1,6 +1,6 @@
 'use strict';
 
-var ctrl = require('./thing-controller');
+var ctrl = require('./thing.controller');
 
 module.exports = function(app) {
   app.route('/api/awesomeThings')
