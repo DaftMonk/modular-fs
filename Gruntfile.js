@@ -49,22 +49,22 @@ module.exports = function (grunt) {
     },
     watch: {
       js: {
-        files: ['<%= yeoman.app %>/components/{,*/}*.js', '!<%= yeoman.app %>/components/{,*/}*.{spec,e2e}.js'],
+        files: ['<%= yeoman.app %>/components/**/*.js', '!<%= yeoman.app %>/components/**/*.{spec,e2e}.js'],
         tasks: ['injector:app', 'newer:jshint:all'],
         options: {
           livereload: true
         }
       },
       mochaTest: {
-        files: ['server/components/{,*/}*.spec.js'],
+        files: ['server/components/**/*.spec.js'],
         tasks: ['env:test', 'mochaTest']
       },
       jsTest: {
-        files: ['<%= yeoman.app %>/components/{,*/}*.spec.js'],
+        files: ['<%= yeoman.app %>/components/**/*.spec.js'],
         tasks: ['newer:jshint:all', 'karma']
       },
       compass: {
-        files: ['<%= yeoman.app %>/components/{,*/}*.{scss,sass}'],
+        files: ['<%= yeoman.app %>/components/**/*.{scss,sass}'],
         tasks: ['injector:sass','compass:server', 'autoprefixer']
       },
       gruntfile: {
@@ -76,7 +76,7 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/components/{,*//*}*.css',
           '<%= yeoman.app %>/components/{,*//*}*.html',
           '{.tmp,<%= yeoman.app %>/components}/{,*//*}*.js',
-          '!<%= yeoman.app %>/components/{,*/}*_spec.js',
+          '!<%= yeoman.app %>/components/**/*_spec.js',
           '<%= yeoman.app %>/components/images/{,*//*}*.{png,jpg,jpeg,gif,webp,svg}'
         ],
         options: {
@@ -108,8 +108,8 @@ module.exports = function (grunt) {
         src: [ 'server/{,*/}*.js']
       },
       all: [
-        '<%= yeoman.app %>/components/{,*/}*.js',
-        '<%= yeoman.app %>/components/{,*/}*.{spec,e2e}.js'
+        '<%= yeoman.app %>/components/**/*.js',
+        '<%= yeoman.app %>/components/**/*.{spec,e2e}.js'
       ]
     },
 
@@ -416,7 +416,7 @@ module.exports = function (grunt) {
       options: {
         reporter: 'spec'
       },
-      src: ['server/components/{,*/}*.spec.js']
+      src: ['server/components/**/*.spec.js']
     },
 
     protractor: {
@@ -455,8 +455,8 @@ module.exports = function (grunt) {
         files: {
           '<%= yeoman.app %>/index.html': [
             '<%= yeoman.app %>/app.js',
-            '<%= yeoman.app %>/components/{,*/}*.js',
-            '!<%= yeoman.app %>/components/{,*/}*.{spec,e2e}.js'
+            '<%= yeoman.app %>/components/**/*.js',
+            '!<%= yeoman.app %>/components/**/*.{spec,e2e}.js'
           ]
         }
       },
@@ -473,7 +473,7 @@ module.exports = function (grunt) {
         },
         files: {
           '<%= yeoman.app %>/app.scss': [
-            '<%= yeoman.app %>/components/{,*/}*.{scss,sass}'
+            '<%= yeoman.app %>/components/**/*.{scss,sass}'
           ]
         }
       }
@@ -540,6 +540,7 @@ module.exports = function (grunt) {
     else if (target === 'client') {
       return grunt.task.run([
         'env:test',
+        'injector',
         'clean:server',
         'concurrent:test',
         'autoprefixer',
@@ -551,6 +552,7 @@ module.exports = function (grunt) {
       return grunt.task.run([
         'env:test',
         'clean:server',
+        'injector',
         'concurrent:test',
         'autoprefixer',
         'express:dev',
@@ -561,6 +563,7 @@ module.exports = function (grunt) {
     else grunt.task.run([
       'env:test',
       'clean:server',
+      'injector',
       'concurrent:test',
       'autoprefixer',
       'mochaTest',

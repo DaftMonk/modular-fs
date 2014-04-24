@@ -1,32 +1,28 @@
 'use strict';
 
-var load = require('./config/load'),
-    path = require('path'),
-    notFound = require('./config/404');
+var errors = require('./config/errors');
 
 /**
  * Main application routes
  */
 module.exports = function(app) {
 
-  // Load all component route files
-  load.byExt('server/components/', '.js').forEach(function(routeFile) {
-    require(path.resolve(routeFile))(app);
-  });
+  // Use component routing
+  app.use('/api/things', require('./components/thing'));
 
   // All undefined asset or api routes should return a 404
   app.route('/api/*')
-    .get(notFound);
+    .get(errors[404]);
   app.route('/components/*')
-    .get(notFound);
+    .get(errors[404]);
   app.route('/scripts/*')
-    .get(notFound);
+    .get(errors[404]);
   app.route('/styles/*')
-    .get(notFound);
+    .get(errors[404]);
   app.route('/bower_components/*')
-    .get(notFound);
+    .get(errors[404]);
   app.route('/images/*')
-    .get(notFound);
+    .get(errors[404]);
 
   // All other routes should redirect to the index.html
   app.route('/*')

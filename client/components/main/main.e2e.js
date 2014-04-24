@@ -15,7 +15,6 @@ describe('Main View', function() {
     expect(imgEl.getAttribute('src')).toMatch(/\/images\/yeoman.png$/);
     expect(imgEl.getAttribute('alt')).toBe('I\'m Yeoman');
     expect(anchorEl.getText()).toBe('Splendid!');
-
   });
 
   it('should render awesomeThings', function() {
@@ -25,7 +24,7 @@ describe('Main View', function() {
 
     expect(firstAwesomeThingNameEl.getText()).toBe('HTML5 Boilerplate');
     awesomeThingsCount.then(function(count) {
-      expect(count).toBe(4);
+      expect(count).toBe(5);
     });
   });
 });

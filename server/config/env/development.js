@@ -1,5 +1,8 @@
 'use strict';
 
 module.exports = {
-  env: 'development'
+  env: 'development',
+  mongo: {
+    uri: 'mongodb://localhost/fullstack-dev'
+  }
 };
