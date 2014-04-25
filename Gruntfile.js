@@ -539,7 +539,6 @@ module.exports = function (grunt) {
 
     else if (target === 'client') {
       return grunt.task.run([
-        'env:test',
         'injector',
         'clean:server',
         'concurrent:test',
@@ -561,14 +560,8 @@ module.exports = function (grunt) {
     }
 
     else grunt.task.run([
-      'env:test',
-      'clean:server',
-      'injector',
-      'concurrent:test',
-      'autoprefixer',
-      'mochaTest',
-      'karma',
-      'protractor'
+      'test:server',
+      'test:client'
     ]);
   });
 
