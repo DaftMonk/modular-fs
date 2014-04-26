@@ -1,3 +1,7 @@
+/**
+ * Express configuration
+ */
+
 'use strict';
 
 var express = require('express');
@@ -13,9 +17,6 @@ var path = require('path');
 var passport = require('passport');
 var config = require('./');
 
-/**
- * Express configuration
- */
 module.exports = function(app) {
   var env = app.get('env');
 

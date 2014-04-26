@@ -1,10 +1,11 @@
+/**
+ * Main application routes
+ */
+
 'use strict';
 
 var errors = require('./config/errors');
 
-/**
- * Main application routes
- */
 module.exports = function(app) {
 
   // Use component routing

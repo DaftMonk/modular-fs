@@ -1,10 +1,13 @@
+/**
+ * Passport authentication strategies
+ */
+
 'use strict';
 
 var User = require('../components/user/user.model');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-// add other strategies for more authentication flexibility
 passport.use(new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password' // this is the virtual field on the model

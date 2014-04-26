@@ -1,6 +1,9 @@
 /**
- * 404 middleware
+ * Error responses
  */
+
+'use strict';
+
 module.exports[404] = function pageNotFound(req, res) {
   var viewFilePath = '404';
   var statusCode = 404;
