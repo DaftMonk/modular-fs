@@ -12,12 +12,9 @@ exports.authenticate = function (req, res, next) {
   passport.authenticate('local', function(err, user, info) {
     var error = err || info;
     if (error) return res.json(401, error);
+    if (!user) return res.json(401, { message: 'Something went wrong, please try again.'});
 
-    req.logIn(user, function(err) {
-      if (err) return res.send(err);
-
-      var token = jwt.sign(req.user, config.secret, { expiresInMinutes: 60*5 });
-      res.json({ token: token });
-    });
+    var token = jwt.sign({ _id: user._id, role: user.role }, config.secret, { expiresInMinutes: 60*5 });
+    res.json({ token: token });
   })(req, res, next);
 };

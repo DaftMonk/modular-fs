@@ -10,7 +10,6 @@ var router = express.Router();
 // middleware that authenticates user and makes it available as req.user
 var auth = jwt({ secret: config.secret});
 
-
 router.get('/me', auth, controller.me);
 router.put('/:id/password', auth, controller.changePassword);
 router.get('/:id', auth, controller.show);

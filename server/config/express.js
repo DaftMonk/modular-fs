@@ -10,8 +10,6 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var errorHandler = require('errorhandler');
 var path = require('path');
-var expressJwt = require('express-jwt');
-var jwt = require('jsonwebtoken');
 var passport = require('passport');
 var config = require('./');
 

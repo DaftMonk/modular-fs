@@ -16,7 +16,7 @@ exports.create = function (req, res, next) {
     req.logIn(newUser, function(err) {
       if (err) return next(err);
 
-      var token = jwt.sign(req.user, config.secret, { expiresInMinutes: 60*5 });
+      var token = jwt.sign(req.user.id, config.secret, { expiresInMinutes: 60*5 });
       res.json({ token: token });
     });
   });
@@ -31,7 +31,7 @@ exports.show = function (req, res, next) {
   User.findById(userId, function (err, user) {
     if (err) return next(err);
     if (!user) return res.send(404);
-    res.send({ profile: user.profile });
+    res.json(user.profile);
   });
 };
 
@@ -59,6 +59,11 @@ exports.changePassword = function(req, res, next) {
 /**
  * Get my info
  */
-exports.me = function(req, res) {
-  res.json(req.user || null);
+exports.me = function(req, res, next) {
+  var userId = req.user._id;
+  User.findById(userId, function (err, user) {
+    if (err) return next(err);
+    if (!user) return res.send(404);
+    res.json(user.profile);
+  });
 };
