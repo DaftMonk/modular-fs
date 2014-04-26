@@ -1,16 +1,20 @@
 'use strict';
 
-var express = require('express'),
-    favicon = require('static-favicon'),
-    morgan = require('morgan'),
-    compression = require('compression'),
-    bodyParser = require('body-parser'),
-    methodOverride = require('method-override'),
-    cookieParser = require('cookie-parser'),
-    session = require('express-session'),
-    errorHandler = require('errorhandler'),
-    path = require('path'),
-    config = require('./config');
+var express = require('express');
+var favicon = require('static-favicon');
+var morgan = require('morgan');
+var compression = require('compression');
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var errorHandler = require('errorhandler');
+var path = require('path');
+var expressJwt = require('express-jwt');
+var jwt = require('jsonwebtoken');
+var passport = require('passport');
+var mongoStore = require('connect-mongo')(session);
+var config = require('./');
 
 /**
  * Express configuration
@@ -47,8 +51,25 @@ module.exports = function(app) {
   app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'html');
   app.use(morgan('dev'));
+
   app.use(bodyParser());
   app.use(methodOverride());
+  app.use(cookieParser());
+
+  // Persist sessions with mongoStore
+  app.use(session({
+    secret: config.secret,
+    store: new mongoStore({
+      url: config.mongo.uri,
+      collection: 'sessions'
+    }, function () {
+      console.log('db connection open');
+    })
+  }));
+
+  // Use passport session
+  app.use(passport.initialize());
+  app.use(passport.session());
 
   // Error handler - has to be last
   if ('development' === app.get('env')) {
