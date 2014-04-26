@@ -6,17 +6,9 @@ var config = require('../../config');
 var jwt = require('jsonwebtoken');
 
 /**
- * Logout
+ * Authenticate user and return an access token
  */
-exports.logout = function (req, res) {
-  req.logout();
-  res.send(200);
-};
-
-/**
- * Login
- */
-exports.login = function (req, res, next) {
+exports.authenticate = function (req, res, next) {
   passport.authenticate('local', function(err, user, info) {
     var error = err || info;
     if (error) return res.json(401, error);

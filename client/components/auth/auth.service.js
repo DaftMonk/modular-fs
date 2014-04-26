@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('ngApp')
-  .factory('Auth', function Auth($location, $rootScope, Session, User, $cookieStore) {
+  .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q) {
 
     var currentUser = $cookieStore.get('token') ? User.get() : {};
 
     return {
 
       /**
-       * Authenticate user
+       * Authenticate user and save token
        *
        * @param  {Object}   user     - login info
        * @param  {Function} callback - optional
@@ -16,37 +16,35 @@ angular.module('ngApp')
        */
       login: function(user, callback) {
         var cb = callback || angular.noop;
+        var deferred = $q.defer();
 
-        return Session.save({
+        $http.post('/api/authenticate', {
           email: user.email,
           password: user.password
-        }, function(data) {
+        }).
+        success(function(data) {
           $cookieStore.put('token', data.token);
           currentUser = User.get();
+          deferred.resolve(data);
           return cb();
-        }, function(err) {
-          $cookieStore.remove('token');
-          currentUser = {};
+        }).
+        error(function(err) {
+          this.logout();
+          deferred.reject(err);
           return cb(err);
-        }).$promise;
+        }.bind(this));
+
+        return deferred.promise;
       },
 
       /**
-       * Unauthenticate user
+       * Delete access token and user info
        *
-       * @param  {Function} callback - optional
-       * @return {Promise}
+       * @param  {Function}
        */
-      logout: function(callback) {
-        var cb = callback || angular.noop;
-
-        return Session.delete(function() {
-            $cookieStore.remove('token');
-            return cb();
-          },
-          function(err) {
-            return cb(err);
-          }).$promise;
+      logout: function() {
+        $cookieStore.remove('token');
+        currentUser = {};
       },
 
       /**
@@ -66,9 +64,9 @@ angular.module('ngApp')
             return cb(user);
           },
           function(err) {
-            currentUser = {};
+            this.logout();
             return cb(err);
-          }).$promise;
+          }.bind(this)).$promise;
       },
 
       /**
@@ -97,7 +95,9 @@ angular.module('ngApp')
        *
        * @return {Object} user
        */
-      currentUser: currentUser,
+      getCurrentUser: function() {
+        return currentUser;
+      },
 
       /**
        * Simple check to see if a user is logged in

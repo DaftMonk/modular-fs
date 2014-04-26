@@ -13,7 +13,6 @@ var path = require('path');
 var expressJwt = require('express-jwt');
 var jwt = require('jsonwebtoken');
 var passport = require('passport');
-var mongoStore = require('connect-mongo')(session);
 var config = require('./');
 
 /**
@@ -51,25 +50,10 @@ module.exports = function(app) {
   app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'html');
   app.use(morgan('dev'));
-
   app.use(bodyParser());
   app.use(methodOverride());
-  app.use(cookieParser());
-
-  // Persist sessions with mongoStore
-  app.use(session({
-    secret: config.secret,
-    store: new mongoStore({
-      url: config.mongo.uri,
-      collection: 'sessions'
-    }, function () {
-      console.log('db connection open');
-    })
-  }));
-
-  // Use passport session
   app.use(passport.initialize());
-  app.use(passport.session());
+  app.use(cookieParser());
 
   // Error handler - has to be last
   if ('development' === app.get('env')) {

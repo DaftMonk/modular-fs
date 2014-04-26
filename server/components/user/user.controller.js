@@ -2,6 +2,8 @@
 
 var User = require('./user.model');
 var passport = require('passport');
+var config = require('../../config');
+var jwt = require('jsonwebtoken');
 
 /**
  * Creates a new user
@@ -13,7 +15,9 @@ exports.create = function (req, res, next) {
     if (err) return res.json(400, err);
     req.logIn(newUser, function(err) {
       if (err) return next(err);
-      return res.json(req.user.userInfo);
+
+      var token = jwt.sign(req.user, config.secret, { expiresInMinutes: 60*5 });
+      res.json({ token: token });
     });
   });
 };

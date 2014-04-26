@@ -10,14 +10,11 @@ angular.module('ngApp')
       'link': '/settings'
     }];
 
-    $scope.currentUser = Auth.currentUser;
     $scope.isLoggedIn = Auth.isLoggedIn;
 
     $scope.logout = function() {
-      Auth.logout()
-      .then(function() {
-        $location.path('/login');
-      });
+      Auth.logout();
+      $location.path('/login');
     };
 
     $scope.isActive = function(route) {

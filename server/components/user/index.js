@@ -2,12 +2,18 @@
 
 var express = require('express');
 var controller = require('./user.controller');
+var jwt = require('express-jwt');
+var config = require('../../config');
 
 var router = express.Router();
 
-router.get('/me', controller.me);
-router.put('/:id/password', controller.changePassword);
-router.get('/:id', controller.show);
+// middleware that authenticates user and makes it available as req.user
+var auth = jwt({ secret: config.secret});
+
+
+router.get('/me', auth, controller.me);
+router.put('/:id/password', auth, controller.changePassword);
+router.get('/:id', auth, controller.show);
 router.post('/', controller.create);
 
 module.exports = router;

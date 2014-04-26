@@ -1,7 +1,7 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="jumbotron">
-  <h1>'Allo, 'Allo<span ng-show="isLoggedIn()"> {{ currentUser.name }}</span>!</h1>
+  <h1>'Allo, 'Allo<span ng-show="isLoggedIn()"> {{ getCurrentUser().name }}</span>!</h1>
   <p class="lead">
     <img src="/images/yeoman.png" alt="I'm Yeoman"><br>
     Always a pleasure scaffolding your apps.
