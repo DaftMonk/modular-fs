@@ -37,8 +37,7 @@ module.exports = function (grunt) {
       },
       prod: {
         options: {
-          script: 'dist/server/app.js',
-          node_env: 'production'
+          script: 'dist/server/app.js'
         }
       }
     },
@@ -447,6 +446,10 @@ module.exports = function (grunt) {
     env: {
       test: {
         NODE_ENV: 'test'
+      },
+      prod: {
+        NODE_ENV: 'production',
+        SESSION_SECRET: 'angular-fullstack'
       }
     },
 
@@ -510,7 +513,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
-      return grunt.task.run(['build', 'express:prod', 'open', 'express-keepalive']);
+      return grunt.task.run(['build', 'env:prod', 'express:prod', 'open', 'express-keepalive']);
     }
 
     if (target === 'debug') {

@@ -10,7 +10,7 @@ var access = require('../../config/access');
 var router = express.Router();
 
 // middleware that authenticates user and makes it available as req.user
-var auth = jwt({ secret: config.secret});
+var auth = jwt({ secret: config.secrets.session});
 
 router.get('/', auth, access('admin'), controller.index);
 router.delete('/:id', auth, access('admin'), controller.destroy);
