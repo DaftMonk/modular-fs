@@ -2,12 +2,15 @@
 
 angular.module('ngApp')
   .factory('User', function ($resource) {
-    return $resource('/api/users/:id', {
-      id: '@id'
-    }, { //parameters default
-      update: {
+    return $resource('/api/users/:id/:controller', {
+      id: '@_id'
+    },
+    {
+      changePassword: {
         method: 'PUT',
-        params: {}
+        params: {
+          controller:'password'
+        }
       },
       get: {
         method: 'GET',
