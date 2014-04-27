@@ -14,7 +14,7 @@ exports.authenticate = function (req, res, next) {
     if (error) return res.json(401, error);
     if (!user) return res.json(401, { message: 'Something went wrong, please try again.'});
 
-    var token = jwt.sign({ _id: user._id, role: user.role }, config.secret, { expiresInMinutes: 60*5 });
+    var token = jwt.sign(user.token, config.secret, { expiresInMinutes: 60*5 });
     res.json({ token: token });
   })(req, res, next);
 };
