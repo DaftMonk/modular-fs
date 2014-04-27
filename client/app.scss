@@ -3,5 +3,6 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
 @import 'bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 
 // injector
+@import 'components/admin/admin.scss';
 @import 'components/main/main.scss';
 // endinjector

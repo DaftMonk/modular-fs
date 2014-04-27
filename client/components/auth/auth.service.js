@@ -100,13 +100,21 @@ angular.module('ngApp')
       },
 
       /**
-       * Simple check to see if a user is logged in
+       * Check if a user is logged in
        *
        * @return {Boolean}
        */
       isLoggedIn: function() {
-        var userToken = $cookieStore.get('token');
-        return !!userToken;
+        return currentUser.hasOwnProperty('role');
       },
+
+      /**
+       * Check if a user is an admin
+       *
+       * @return {Boolean}
+       */
+      isAdmin: function() {
+        return currentUser.role === 'admin';
+      }
     };
   });
