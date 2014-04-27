@@ -48,9 +48,14 @@ module.exports = function (grunt) {
       }
     },
     watch: {
+      injectJS: {
+        files: ['<%= yeoman.app %>/components/**/*.js', '!<%= yeoman.app %>/components/**/*.{spec,e2e}.js'],
+        options: {
+          event: ['added', 'deleted'],
+        }
+      },
       js: {
         files: ['<%= yeoman.app %>/components/**/*.js', '!<%= yeoman.app %>/components/**/*.{spec,e2e}.js'],
-        tasks: ['injector:app', 'newer:jshint:all'],
         options: {
           livereload: true
         }
@@ -63,9 +68,16 @@ module.exports = function (grunt) {
         files: ['<%= yeoman.app %>/components/**/*.spec.js'],
         tasks: ['newer:jshint:all', 'karma']
       },
+      injectCompass: {
+        files: ['<%= yeoman.app %>/components/**/*.{scss,sass}'],
+        tasks: ['injector:sass'],
+        options: {
+          event: ['added', 'deleted']
+        }
+      },
       compass: {
         files: ['<%= yeoman.app %>/components/**/*.{scss,sass}'],
-        tasks: ['injector:sass','compass:server', 'autoprefixer']
+        tasks: ['compass:server', 'autoprefixer']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -87,7 +99,7 @@ module.exports = function (grunt) {
         files: [
           'server/**/*.{js,json}'
         ],
-        tasks: ['newer:jshint:server', 'express:dev', 'wait'],
+        tasks: ['express:dev', 'wait'],
         options: {
           livereload: true,
           nospawn: true //Without this option specified express won't be reloaded
