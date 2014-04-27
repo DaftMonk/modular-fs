@@ -3,7 +3,7 @@
 var express = require('express');
 var controller = require('./user.controller');
 var jwt = require('express-jwt');
-var config = require('../../config');
+var config = require('../../config/settings');
 
 var router = express.Router();
 

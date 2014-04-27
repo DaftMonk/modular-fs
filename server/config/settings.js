@@ -1,5 +1,6 @@
 /**
- * Load environment configuration
+ * Load configuration based on node environment
+ * Environment specific settings will overide 'all' settings
  */
 
 'use strict';

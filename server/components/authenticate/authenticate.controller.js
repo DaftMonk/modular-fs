@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose');
 var passport = require('passport');
-var config = require('../../config');
+var config = require('../../config/settings');
 var jwt = require('jsonwebtoken');
 
 /**
