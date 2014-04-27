@@ -15,6 +15,7 @@ var validationError = function(res, err) {
 exports.create = function (req, res, next) {
   var newUser = new User(req.body);
   newUser.provider = 'local';
+  newUser.role = 'user';
   newUser.save(function(err, user) {
     if (err) return validationError(res, err);
     var token = jwt.sign(user.token, config.secret, { expiresInMinutes: 60*5 });
