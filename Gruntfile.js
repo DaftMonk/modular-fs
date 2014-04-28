@@ -10,8 +10,14 @@ var path = require('path');
 
 module.exports = function (grunt) {
 
-  // Load grunt tasks automatically
-  require('load-grunt-tasks')(grunt);
+  // Load grunt tasks automatically, when needed
+  require('jit-grunt')(grunt, {
+    express: 'grunt-express-server',
+    useminPrepare: 'grunt-usemin',
+    ngtemplates: 'grunt-angular-templates',
+    cdnify: 'grunt-google-cdn',
+    protractor: 'grunt-protractor-runner'
+  });
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
@@ -68,23 +74,23 @@ module.exports = function (grunt) {
         files: ['<%= yeoman.app %>/components/**/*.spec.js'],
         tasks: ['newer:jshint:all', 'karma']
       },
-      injectCompass: {
+      injectSass: {
         files: ['<%= yeoman.app %>/components/**/*.{scss,sass}'],
         tasks: ['injector:sass'],
         options: {
           event: ['added', 'deleted']
         }
       },
-      compass: {
+      sass: {
         files: ['<%= yeoman.app %>/components/**/*.{scss,sass}'],
-        tasks: ['compass:server', 'autoprefixer']
+        tasks: ['sass', 'autoprefixer']
       },
       gruntfile: {
         files: ['Gruntfile.js']
       },
       livereload: {
         files: [
-          '<%= yeoman.app %>/app.css',
+          '{.tmp,<%= yeoman.app %>}/app.css',
           '<%= yeoman.app %>/components/{,*//*}*.css',
           '<%= yeoman.app %>/components/{,*//*}*.html',
           '{.tmp,<%= yeoman.app %>/components}/{,*//*}*.js',
@@ -149,9 +155,9 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '.tmp/styles/',
+          cwd: '.tmp/',
           src: '{,*/}*.css',
-          dest: '.tmp/styles/'
+          dest: '.tmp/'
         }]
       }
     },
@@ -200,30 +206,10 @@ module.exports = function (grunt) {
     },
 
     // Compiles Sass to CSS and generates necessary files if requested
-    compass: {
-      options: {
-        sassDir: '<%= yeoman.app %>',
-        cssDir: '.tmp/styles',
-        generatedImagesDir: '.tmp/images/generated',
-        imagesDir: '<%= yeoman.app %>/images',
-        javascriptsDir: '<%= yeoman.app %>/components',
-        fontsDir: '<%= yeoman.app %>/fonts',
-        importPath: '<%= yeoman.app %>',
-        httpFontsPath: '<%= yeoman.app %>/fonts',
-        httpImagesPath: '/images',
-        httpGeneratedImagesPath: '/images/generated',
-        relativeAssets: false,
-        assetCacheBuster: false,
-        raw: 'Sass::Script::Number.precision = 10\n'
-      },
-      dist: {
-        options: {
-          generatedImagesDir: '<%= yeoman.dist %>/public/images/generated'
-        }
-      },
+    sass: {
       server: {
-        options: {
-          debugInfo: true
+        files: {
+          '.tmp/app.css' : '<%= yeoman.app %>/app.scss'
         }
       }
     },
@@ -316,9 +302,9 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '.tmp/concat/scripts',
+          cwd: '.tmp/concat',
           src: '*.js',
-          dest: '.tmp/concat/scripts'
+          dest: '.tmp/concat'
         }]
       }
     },
@@ -338,7 +324,7 @@ module.exports = function (grunt) {
             removeScriptTypeAttributes: true,
             removeStyleLinkTypeAttributes: true
           },
-          usemin: 'scripts/scripts.js'
+          usemin: 'app.js'
         },
         cwd: '<%= yeoman.app %>',
         src: ['components/**/*.html'],
@@ -385,19 +371,19 @@ module.exports = function (grunt) {
       },
       styles: {
         expand: true,
-        cwd: '<%= yeoman.app %>/styles',
-        dest: '.tmp/styles/',
-        src: '{,*/}*.css'
+        cwd: '<%= yeoman.app %>',
+        dest: '.tmp/',
+        src: '**/*.css'
       }
     },
 
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
-        'compass:server'
+        'sass'
       ],
       test: [
-        'compass:server'
+        'sass'
       ],
       debug: {
         tasks: [
@@ -409,7 +395,7 @@ module.exports = function (grunt) {
         }
       },
       dist: [
-        'compass:dist',
+        'sass',
         'imagemin',
         'svgmin',
         'htmlmin:dist'
