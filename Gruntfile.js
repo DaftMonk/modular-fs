@@ -1,7 +1,5 @@
 'use strict';
 
-var path = require('path');
-
 // # Globbing
 // for performance reasons we're only matching one level down:
 // 'test/spec/{,*/}*.js'
@@ -77,6 +75,13 @@ module.exports = function (grunt) {
       injectSass: {
         files: ['<%= yeoman.app %>/components/**/*.{scss,sass}'],
         tasks: ['injector:sass'],
+        options: {
+          event: ['added', 'deleted']
+        }
+      },
+      injectCss: {
+        files: ['<%= yeoman.app %>/components/**/*.css'],
+        tasks: ['injector:css'],
         options: {
           event: ['added', 'deleted']
         }
@@ -445,10 +450,10 @@ module.exports = function (grunt) {
       app: {
         options: {
           transform: function(filePath) {
-            filePath = path.relative('/client/', filePath).replace(/\\/g, '/');
+            filePath = filePath.replace('/client/', '');
             return '<script src="' + filePath + '"></script>';
           },
-          starttag: '<!-- injector:{{ext}} -->',
+          starttag: '<!-- injector:js -->',
           endtag: '<!-- endinjector -->'
         },
         files: {
@@ -464,7 +469,7 @@ module.exports = function (grunt) {
       sass: {
         options: {
           transform: function(filePath) {
-            filePath = path.relative('/client/', filePath).replace(/\\/g, '/');
+            filePath = filePath.replace('/client/', '');
             return '@import \'' + filePath + '\';';
           },
           starttag: '// injector',
@@ -473,6 +478,23 @@ module.exports = function (grunt) {
         files: {
           '<%= yeoman.app %>/app.scss': [
             '<%= yeoman.app %>/components/**/*.{scss,sass}'
+          ]
+        }
+      },
+
+      // Inject component css into index.html
+      css: {
+        options: {
+          transform: function(filePath) {
+            filePath = filePath.replace('/client/', '');
+            return '<link rel="stylesheet" href="' + filePath + '">';
+          },
+          starttag: '<!-- injector:css -->',
+          endtag: '<!-- endinjector -->'
+        },
+        files: {
+          '<%= yeoman.app %>/index.html': [
+            '<%= yeoman.app %>/components/**/*.css'
           ]
         }
       }
