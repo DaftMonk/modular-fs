@@ -54,8 +54,23 @@ module.exports = function (grunt) {
     watch: {
       injectJS: {
         files: ['<%= yeoman.app %>/components/**/*.js', '!<%= yeoman.app %>/components/**/*.{spec,e2e}.js'],
+        tasks: ['injector:components'],
         options: {
           event: ['added', 'deleted'],
+        }
+      },
+      injectSass: {
+        files: ['<%= yeoman.app %>/components/**/*.{scss,sass}'],
+        tasks: ['injector:sass'],
+        options: {
+          event: ['added', 'deleted']
+        }
+      },
+      injectCss: {
+        files: ['<%= yeoman.app %>/components/**/*.css'],
+        tasks: ['injector:css'],
+        options: {
+          event: ['added', 'deleted']
         }
       },
       js: {
@@ -72,23 +87,24 @@ module.exports = function (grunt) {
         files: ['<%= yeoman.app %>/components/**/*.spec.js'],
         tasks: ['newer:jshint:all', 'karma']
       },
-      injectSass: {
-        files: ['<%= yeoman.app %>/components/**/*.{scss,sass}'],
-        tasks: ['injector:sass'],
-        options: {
-          event: ['added', 'deleted']
-        }
-      },
-      injectCss: {
-        files: ['<%= yeoman.app %>/components/**/*.css'],
-        tasks: ['injector:css'],
-        options: {
-          event: ['added', 'deleted']
-        }
-      },
       sass: {
         files: ['<%= yeoman.app %>/components/**/*.{scss,sass}'],
         tasks: ['sass', 'autoprefixer']
+      },
+      jade: {
+        files: ['<%= yeoman.app %>/components/**/*.jade'],
+        tasks: ['jade']
+      },
+      coffee: {
+        files: [
+          '<%= yeoman.app %>/components/**/*.{coffee,litcoffee,coffee.md}',
+          '!<%= yeoman.app %>/components/**/*.spec.{coffee,litcoffee,coffee.md}'
+        ],
+        tasks: ['newer:coffee:compile']
+      },
+      coffeeTest: {
+        files: ['<%= yeoman.app %>/components/**/*.spec.{coffee,litcoffee,coffee.md}'],
+        tasks: ['newer:coffee:compile', 'karma']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -97,9 +113,9 @@ module.exports = function (grunt) {
         files: [
           '{.tmp,<%= yeoman.app %>}/app.css',
           '<%= yeoman.app %>/components/{,*//*}*.css',
-          '<%= yeoman.app %>/components/{,*//*}*.html',
-          '{.tmp,<%= yeoman.app %>/components}/{,*//*}*.js',
-          '!<%= yeoman.app %>/components/**/*_spec.js',
+          '{.tmp,<%= yeoman.app %>}/components/{,*//*}*.html',
+          '{.tmp,<%= yeoman.app %>}/components/{,*//*}*.js',
+          '!<%= yeoman.app %>/components/**/*.spec.js',
           '<%= yeoman.app %>/components/images/{,*//*}*.{png,jpg,jpeg,gif,webp,svg}'
         ],
         options: {
@@ -253,7 +269,7 @@ module.exports = function (grunt) {
         // This is so we update image references in our ng-templates
         patterns: {
           js: [
-              [/(images\/.*?\.(?:gif|jpeg|jpg|png|webp|svg))/gm, 'Update the JS to reference our revved images']
+            [/(images\/.*?\.(?:gif|jpeg|jpg|png|webp|svg))/gm, 'Update the JS to reference our revved images']
           ]
         }
       }
@@ -285,23 +301,6 @@ module.exports = function (grunt) {
       }
     },
 
-    htmlmin: {
-      dist: {
-        options: {
-          collapseBooleanAttributes: true,
-          collapseWhitespace: true,
-          removeAttributeQuotes: true,
-          removeEmptyAttributes: true,
-          removeRedundantAttributes: true,
-          removeScriptTypeAttributes: true,
-          removeStyleLinkTypeAttributes: true
-        },
-        files: {
-          '<%= yeoman.dist %>/public/index.html': '<%= yeoman.dist %>/public/index.html'
-        }
-      }
-    },
-
     // Allow the use of non-minsafe AngularJS files. Automatically makes it
     // minsafe compatible so Uglify does not destroy the ng references
     ngmin: {
@@ -317,24 +316,29 @@ module.exports = function (grunt) {
 
     // Package all the html partials into a single javascript payload
     ngtemplates: {
-      main: {
-        options: {
-          // This should be the name of your apps angular module
-          module: require('./bower.json').name + 'App',
-          htmlmin: {
-            collapseBooleanAttributes: true,
-            collapseWhitespace: true,
-            removeAttributeQuotes: true,
-            removeEmptyAttributes: true,
-            removeRedundantAttributes: true,
-            removeScriptTypeAttributes: true,
-            removeStyleLinkTypeAttributes: true
-          },
-          usemin: 'app.js'
+      options: {
+        // This should be the name of your apps angular module
+        module: require('./bower.json').name + 'App',
+        htmlmin: {
+          collapseBooleanAttributes: true,
+          collapseWhitespace: true,
+          removeAttributeQuotes: true,
+          removeEmptyAttributes: true,
+          removeRedundantAttributes: true,
+          removeScriptTypeAttributes: true,
+          removeStyleLinkTypeAttributes: true
         },
+        usemin: 'app.js'
+      },
+      main: {
         cwd: '<%= yeoman.app %>',
         src: ['components/**/*.html'],
         dest: '.tmp/templates.js'
+      },
+      tmp: {
+        cwd: '.tmp',
+        src: ['components/**/*.html'],
+        dest: '.tmp/tmp-templates.js'
       }
     },
 
@@ -386,9 +390,13 @@ module.exports = function (grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
+        'coffee',
+        'jade',
         'sass'
       ],
       test: [
+        'coffee',
+        'jade',
         'sass'
       ],
       debug: {
@@ -401,10 +409,11 @@ module.exports = function (grunt) {
         }
       },
       dist: [
+        'coffee',
+        'jade',
         'sass',
         'imagemin',
-        'svgmin',
-        'htmlmin:dist'
+        'svgmin'
       ]
     },
 
@@ -442,15 +451,55 @@ module.exports = function (grunt) {
       }
     },
 
+    // Compiles Jade to html
+    jade: {
+      compile: {
+        options: {
+          data: {
+            debug: false
+          }
+        },
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>/components',
+          src: '{,*/}*.jade',
+          dest: '.tmp/components',
+          ext: '.html'
+        }]
+      }
+    },
+
+    // Compiles CoffeeScript to JavaScript
+    coffee: {
+      options: {
+        sourceMap: true,
+        sourceRoot: ''
+      },
+      compile: {
+        files: [{
+          expand: true,
+          cwd: 'client',
+          src: [
+            'app.coffee',
+            'components/{,*/}*.coffee'
+          ],
+          dest: '.tmp',
+          ext: '.js'
+        }]
+      }
+    },
+
     injector: {
       options: {
 
       },
       // Inject application source files (doesn't include bower)
-      app: {
+      components: {
         options: {
           transform: function(filePath) {
             filePath = filePath.replace('/client/', '');
+            filePath = filePath.replace('/.tmp/', '');
+            console.log(filePath);
             return '<script src="' + filePath + '"></script>';
           },
           starttag: '<!-- injector:js -->',
@@ -458,9 +507,8 @@ module.exports = function (grunt) {
         },
         files: {
           '<%= yeoman.app %>/index.html': [
-            '<%= yeoman.app %>/app.js',
-            '<%= yeoman.app %>/components/**/*.js',
-            '!<%= yeoman.app %>/components/**/*.{spec,e2e}.js'
+            '{.tmp,<%= yeoman.app %>}/components/**/*.js',
+            '!{.tmp,<%= yeoman.app %>}/components/**/*.{spec,e2e}.js'
           ]
         }
       },
@@ -525,9 +573,9 @@ module.exports = function (grunt) {
     if (target === 'debug') {
       return grunt.task.run([
         'clean:server',
+        'concurrent:server',
         'injector',
         'bowerInstall',
-        'concurrent:server',
         'autoprefixer',
         'concurrent:debug'
       ]);
@@ -535,9 +583,9 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'concurrent:server',
       'injector',
       'bowerInstall',
-      'concurrent:server',
       'autoprefixer',
       'express:dev',
       'open',
@@ -560,9 +608,9 @@ module.exports = function (grunt) {
 
     else if (target === 'client') {
       return grunt.task.run([
-        'injector',
         'clean:server',
         'concurrent:test',
+        'injector',
         'autoprefixer',
         'karma'
       ]);
@@ -570,10 +618,10 @@ module.exports = function (grunt) {
 
     else if (target === 'e2e') {
       return grunt.task.run([
-        'env:test',
         'clean:server',
-        'injector',
+        'env:test',
         'concurrent:test',
+        'injector',
         'autoprefixer',
         'express:dev',
         'protractor'
@@ -588,10 +636,10 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'concurrent:dist',
     'injector',
     'bowerInstall',
     'useminPrepare',
-    'concurrent:dist',
     'autoprefixer',
     'ngtemplates',
     'concat',
