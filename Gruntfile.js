@@ -59,13 +59,6 @@ module.exports = function (grunt) {
           event: ['added', 'deleted'],
         }
       },
-      injectSass: {
-        files: ['<%= yeoman.app %>/components/**/*.{scss,sass}'],
-        tasks: ['injector:sass'],
-        options: {
-          event: ['added', 'deleted']
-        }
-      },
       injectCss: {
         files: ['<%= yeoman.app %>/components/**/*.css'],
         tasks: ['injector:css'],
@@ -87,9 +80,27 @@ module.exports = function (grunt) {
         files: ['<%= yeoman.app %>/components/**/*.spec.js'],
         tasks: ['newer:jshint:all', 'karma']
       },
+      injectSass: {
+        files: ['<%= yeoman.app %>/components/**/*.{scss,sass}'],
+        tasks: ['injector:sass'],
+        options: {
+          event: ['added', 'deleted']
+        }
+      },
       sass: {
         files: ['<%= yeoman.app %>/components/**/*.{scss,sass}'],
         tasks: ['sass', 'autoprefixer']
+      },
+      injectLess: {
+        files: ['<%= yeoman.app %>/components/**/*.less'],
+        tasks: ['injector:less'],
+        options: {
+          event: ['added', 'deleted']
+        }
+      },
+      less: {
+        files: ['<%= yeoman.app %>/components/**/*.less'],
+        tasks: ['less', 'autoprefixer']
       },
       jade: {
         files: ['<%= yeoman.app %>/components/**/*.jade'],
@@ -223,15 +234,6 @@ module.exports = function (grunt) {
         src: '<%= yeoman.app %>/index.html',
         ignorePath: '<%= yeoman.app %>/',
         exclude: ['bootstrap-sass']
-      }
-    },
-
-    // Compiles Sass to CSS and generates necessary files if requested
-    sass: {
-      server: {
-        files: {
-          '.tmp/app.css' : '<%= yeoman.app %>/app.scss'
-        }
       }
     },
 
@@ -392,12 +394,14 @@ module.exports = function (grunt) {
       server: [
         'coffee',
         'jade',
-        'sass'
+        'sass',
+        'less'
       ],
       test: [
         'coffee',
         'jade',
-        'sass'
+        'sass',
+        'less'
       ],
       debug: {
         tasks: [
@@ -412,6 +416,7 @@ module.exports = function (grunt) {
         'coffee',
         'jade',
         'sass',
+        'less',
         'imagemin',
         'svgmin'
       ]
@@ -489,11 +494,29 @@ module.exports = function (grunt) {
       }
     },
 
+    // Compiles Sass to CSS
+    sass: {
+      server: {
+        files: {
+          '.tmp/app.css' : '<%= yeoman.app %>/app.scss'
+        }
+      }
+    },
+
+    // Compiles Less to CSS
+    less: {
+      server: {
+        files: {
+          '.tmp/app.css' : '<%= yeoman.app %>/app.less'
+        }
+      },
+    },
+
     injector: {
       options: {
 
       },
-      // Inject application source files (doesn't include bower)
+      // Inject application script files into index.html (doesn't include bower)
       components: {
         options: {
           transform: function(filePath) {
@@ -526,6 +549,23 @@ module.exports = function (grunt) {
         files: {
           '<%= yeoman.app %>/app.scss': [
             '<%= yeoman.app %>/components/**/*.{scss,sass}'
+          ]
+        }
+      },
+
+      // Inject component less into app.less
+      less: {
+        options: {
+          transform: function(filePath) {
+            filePath = filePath.replace('/client/', '');
+            return '@import \'' + filePath + '\';';
+          },
+          starttag: '// injector',
+          endtag: '// endinjector'
+        },
+        files: {
+          '<%= yeoman.app %>/app.less': [
+            '<%= yeoman.app %>/components/**/*.less'
           ]
         }
       },
