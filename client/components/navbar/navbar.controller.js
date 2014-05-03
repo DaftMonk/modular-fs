@@ -19,6 +19,7 @@ angular.module('ngApp')
     };
 
     $scope.isActive = function(route) {
+      console.log(route);
       return route === $location.path();
     };
   });
