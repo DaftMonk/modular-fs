@@ -507,6 +507,9 @@ module.exports = function (grunt) {
     // Compiles Sass to CSS
     sass: {
       server: {
+        options: {
+          compass: true
+        },
         files: {
           '.tmp/app.css' : '<%= yeoman.app %>/app.scss'
         }

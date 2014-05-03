@@ -18,7 +18,7 @@ Thing.find({}).remove(function() {
     name : 'Express',
     info : 'Flexible and minimalist web application framework for node.js.'
   }, {
-    name : 'MongoDB + Mongoose',
-    info : 'An excellent document database. Combined with Mongoose to simplify adding validation and business logic.'
+    name : 'Mongoose',
+    info : 'Simplify validation and business logic by modeling your data for MongoDB.'
   });
 });
