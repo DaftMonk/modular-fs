@@ -87,7 +87,10 @@ module.exports = function (grunt) {
         }
       },
       sass: {
-        files: ['<%= yeoman.app %>/components/**/*.{scss,sass}'],
+        files: [
+          '<%= yeoman.app %>/components/**/*.{scss,sass}',
+          '<%= yeoman.app %>/app.scss'
+        ],
         tasks: ['sass', 'autoprefixer']
       },
       injectLess: {
@@ -98,7 +101,10 @@ module.exports = function (grunt) {
         }
       },
       less: {
-        files: ['<%= yeoman.app %>/components/**/*.less'],
+        files: [
+          '<%= yeoman.app %>/components/**/*.less',
+          '<%= yeoman.app %>/app.less'
+        ],
         tasks: ['less', 'autoprefixer']
       },
       jade: {
@@ -107,6 +113,7 @@ module.exports = function (grunt) {
       },
       coffee: {
         files: [
+          '<%= yeoman.app %>/app.coffee',
           '<%= yeoman.app %>/components/**/*.{coffee,litcoffee,coffee.md}',
           '!<%= yeoman.app %>/components/**/*.spec.{coffee,litcoffee,coffee.md}'
         ],
