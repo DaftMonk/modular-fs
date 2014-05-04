@@ -15,17 +15,15 @@ module.exports = function(app) {
     .get(errors[404]);
   app.route('/components/*')
     .get(errors[404]);
-  app.route('/scripts/*')
-    .get(errors[404]);
-  app.route('/styles/*')
+  app.route('/app/*')
     .get(errors[404]);
   app.route('/bower_components/*')
     .get(errors[404]);
-  app.route('/images/*')
+  app.route('/assets/*')
     .get(errors[404]);
 
   // All other routes should redirect to the index.html
-  app.route('/*')
+  app.route('/')
     .get(function(req, res) {
       res.sendfile(app.get('appPath') + '/index.html');
     });
