@@ -4,7 +4,7 @@ angular.module('ngApp')
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'components/main/main.html',
+        templateUrl: 'main/main.html',
         controller: 'MainCtrl'
       });
   });
