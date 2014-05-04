@@ -4,7 +4,7 @@ angular.module('ngApp')
   .config(function ($routeProvider) {
     $routeProvider
       .when('/settings', {
-        templateUrl: 'components/settings/settings.html',
+        templateUrl: 'settings/settings.html',
         controller: 'SettingsCtrl',
         authenticate: true
       });
