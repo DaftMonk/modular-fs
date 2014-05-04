@@ -3,9 +3,9 @@
 angular.module('ngApp')
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/admin', {
-        templateUrl: 'admin/admin.html',
-        controller: 'AdminCtrl',
+      .when('/settings', {
+        templateUrl: 'app/settings/settings.html',
+        controller: 'SettingsCtrl',
         authenticate: true
       });
   });

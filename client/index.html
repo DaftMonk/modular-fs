@@ -11,12 +11,13 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css(client) vendor.css -->
+    <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
+      <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
       <!-- endbower -->
     <!-- endbuild -->
-    <!-- build:css({.tmp,client}) app.css -->
-    <link rel="stylesheet" href="app.css">
+    <!-- build:css({.tmp,client}) app/app.css -->
+    <link rel="stylesheet" href="app/app.css">
       <!-- injector:css -->
       <!-- endinjector -->
     <!-- endbuild -->
@@ -45,7 +46,7 @@
     <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
 
-    <!-- build:js(client) vendor.js -->
+    <!-- build:js(client) app/vendor.js -->
       <!-- bower:js -->
       <script src="bower_components/jquery/dist/jquery.js"></script>
       <script src="bower_components/angular/angular.js"></script>
@@ -57,23 +58,24 @@
       <!-- endbower -->
     <!-- endbuild -->
 
-        <!-- build:js({.tmp,client}) app.js -->
-        <script src="app.js"></script>
+        <!-- build:js({.tmp,client}) app/app.js -->
+        <script src="app/app.js"></script>
           <!-- injector:js -->
-          <script src="admin/admin.controller.js"></script>
-          <script src="admin/admin.js"></script>
+          <script src="app/admin/admin.controller.js"></script>
+          <script src="app/admin/admin.js"></script>
+          <script src="app/login/login.controller.js"></script>
+          <script src="app/login/login.js"></script>
+          <script src="app/main/main-controller.js"></script>
+          <script src="app/main/main.js"></script>
+          <script src="app/settings/settings.controller.js"></script>
+          <script src="app/settings/settings.js"></script>
+          <script src="app/signup/signup.controller.js"></script>
+          <script src="app/signup/signup.js"></script>
           <script src="components/auth/auth.service.js"></script>
           <script src="components/auth/user.service.js"></script>
           <script src="components/mongoose-error/mongoose-error.directive.js"></script>
           <script src="components/navbar/navbar.controller.js"></script>
-          <script src="login/login.controller.js"></script>
-          <script src="login/login.js"></script>
-          <script src="main/main-controller.js"></script>
-          <script src="main/main.js"></script>
-          <script src="settings/settings.controller.js"></script>
-          <script src="settings/settings.js"></script>
-          <script src="signup/signup.controller.js"></script>
-          <script src="signup/signup.js"></script>
-          <!-- endinjector -->        <!-- endbuild -->
+          <!-- endinjector -->
+        <!-- endbuild -->
 </body>
 </html>

@@ -3,8 +3,8 @@
 angular.module('ngApp')
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/login', {
-        templateUrl: 'login/login.html',
-        controller: 'LoginCtrl'
+      .when('/', {
+        templateUrl: 'app/main/main.html',
+        controller: 'MainCtrl'
       });
   });

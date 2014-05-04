@@ -17,12 +17,14 @@ module.exports = function(config) {
       'client/bower_components/angular-cookies/angular-cookies.js',
       'client/bower_components/angular-sanitize/angular-sanitize.js',
       'client/bower_components/angular-route/angular-route.js',
-      'client/*.js',
+      'client/app/**/*.html',
+      'client/app/**/*.js',
       'client/components/**/*.html',
       'client/components/**/*.js'
     ],
 
     preprocessors: {
+      'client/app/**/*.html': 'html2js',
       'client/components/**/*.html': 'html2js'
     },
 

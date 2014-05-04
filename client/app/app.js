@@ -44,6 +44,7 @@ angular.module('ngApp', [
   .run(function ($rootScope, $location, Auth) {
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$routeChangeStart', function (event, next) {
+      console.log(Auth.isLoggedIn());
       if (next.authenticate && !Auth.isLoggedIn()) {
         $location.path('/login');
       }
