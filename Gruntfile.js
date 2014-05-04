@@ -53,7 +53,7 @@ module.exports = function (grunt) {
     },
     watch: {
       injectJS: {
-        files: ['<%= yeoman.app %>/components/**/*.js', '!<%= yeoman.app %>/components/**/*.{spec,e2e}.js'],
+        files: ['<%= yeoman.app %>/components/**/*.js', '!<%= yeoman.app %>/components/**/*.spec.js'],
         tasks: ['injector:components'],
         options: {
           event: ['added', 'deleted'],
@@ -67,7 +67,7 @@ module.exports = function (grunt) {
         }
       },
       js: {
-        files: ['<%= yeoman.app %>/components/**/*.js', '!<%= yeoman.app %>/components/**/*.{spec,e2e}.js'],
+        files: ['<%= yeoman.app %>/components/**/*.js', '!<%= yeoman.app %>/components/**/*.spec.js'],
         options: {
           livereload: true
         }
@@ -159,7 +159,7 @@ module.exports = function (grunt) {
       },
       all: [
         '<%= yeoman.app %>/components/**/*.js',
-        '<%= yeoman.app %>/components/**/*.{spec,e2e}.js'
+        '<%= yeoman.app %>/components/**/*.spec.js'
       ]
     },
 
@@ -531,7 +531,7 @@ module.exports = function (grunt) {
         files: {
           '<%= yeoman.app %>/index.html': [
             '{.tmp,<%= yeoman.app %>}/components/**/*.js',
-            '!{.tmp,<%= yeoman.app %>}/components/**/*.{spec,e2e}.js'
+            '!{.tmp,<%= yeoman.app %>}/components/**/*.spec.js'
           ]
         }
       },
