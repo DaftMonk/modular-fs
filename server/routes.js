@@ -8,7 +8,7 @@ var errors = require('./config/errors');
 module.exports = function(app) {
 
   // Use component routing
-  app.use('/api/things', require('./components/thing'));
+  app.use('/api/things', require('./api/thing'));
 
   // All undefined asset or api routes should return a 404
   app.route('/api/*')
