@@ -4,7 +4,7 @@
 
 'use strict';
 
-var User = require('../components/user/user.model');
+var User = require('../api/user/user.model');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
