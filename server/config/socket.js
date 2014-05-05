@@ -15,7 +15,7 @@ function onConnect(socket) {
     onInfo(socket, data);
   });
 
-  require('../components/thing/thing.socket').register(socket);
+  require('../api/thing/thing.socket').register(socket);
   // Add more sockets above here
 }
 
