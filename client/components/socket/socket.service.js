@@ -26,5 +26,30 @@ angular.module('ngApp')
       ioSocket: ioSocket
     });
 
-    return socket;
+    return {
+      socket: socket,
+
+      syncCollection: function(collection, itemName) {
+        socket.on(itemName + ':save', function(newItem) {
+          var oldItem = _.find(collection, { _id: newItem._id });
+
+          // Update item if it already exists in collection
+          if(oldItem) {
+            var index = collection.indexOf(oldItem);
+            collection.splice(index, 1, newItem);
+          }
+
+          // Or just add new item to collection
+          else {
+            collection.push(newItem);
+          }
+        });
+
+        socket.on(itemName + ':remove', function(newItem) {
+          var oldItem = _.find(collection, { _id: newItem._id });
+          var index = collection.indexOf(oldItem);
+          collection.splice(index, 1);
+        });
+      }
+    };
   });
