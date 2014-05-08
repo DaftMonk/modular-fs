@@ -4,7 +4,7 @@
 
 'use strict';
 
-var errors = require('./config/errors');
+var errors = require('./components/errors/errors');
 
 module.exports = function(app) {
 
