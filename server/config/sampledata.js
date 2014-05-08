@@ -1,4 +1,7 @@
-// Populate DB with sample data
+/**
+ * Populate DB with sample data
+ * to disable, edit config/env/all.js, and set `sampleData: false`
+ */
 
 'use strict';
 
