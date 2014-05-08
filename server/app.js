@@ -13,6 +13,9 @@ var config = require('./config');
 // Connect to database
 var db = mongoose.connect(config.mongo.uri, config.mongo.options);
 
+// Populate DB with sample data
+if(config.sampleData) { require('./config/sampledata'); }
+
 // Setup server
 var app = express();
 var server = require('http').createServer(app);
