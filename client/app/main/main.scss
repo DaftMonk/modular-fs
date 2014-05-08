@@ -33,5 +33,5 @@
     color: #F5F5F5;
     text-align: center;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-    @include background-image(linear-gradient(#2880AA, #3E7F99));
+    background-image: linear-gradient(to bottom,#2880AA 0,#3E7F99 100%);
 }
