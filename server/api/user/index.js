@@ -2,7 +2,6 @@
 
 var express = require('express');
 var controller = require('./user.controller');
-var fixture = require('./user.fixture');
 var config = require('../../config');
 var access = require('../../config/access');
 

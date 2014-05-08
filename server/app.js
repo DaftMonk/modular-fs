@@ -15,6 +15,9 @@ var config = require('./config');
 // Connect to database
 var db = mongoose.connect(config.mongo.uri, config.mongo.options);
 
+// Populate DB with sample data
+if(config.sampleData) { require('./config/sampledata'); }
+
 // Passport Configuration
 var passport = require('./config/passport');
 

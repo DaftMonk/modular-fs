@@ -2,7 +2,8 @@
 
 'use strict';
 
-var Thing = require('./thing.model');
+var Thing = require('../api/thing/thing.model');
+var User = require('../api/user/user.model');
 
 Thing.find({}).remove(function() {
   Thing.create({
@@ -18,7 +19,25 @@ Thing.find({}).remove(function() {
     name : 'Express',
     info : 'Flexible and minimalist web application framework for node.js.'
   }, {
-    name : 'Mongoose',
-    info : 'Simplify validation and business logic by modeling your data for MongoDB.'
+    name : 'MongoDB + Mongoose',
+    info : 'An excellent document database. Combined with Mongoose to simplify adding validation and business logic.'
   });
+});
+
+User.find({}).remove(function() {
+  User.create({
+    provider: 'local',
+    name: 'Test User',
+    email: 'test@test.com',
+    password: 'test'
+  }, {
+    provider: 'local',
+    role: 'admin',
+    name: 'Admin',
+    email: 'admin@admin.com',
+    password: 'admin'
+  }, function() {
+      console.log('finished populating users');
+    }
+  );
 });
