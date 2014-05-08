@@ -1,6 +1,6 @@
 'use strict';
 
-var errors = require('./config/errors');
+var errors = require('./components/errors/errors');
 
 /**
  * Main application routes
