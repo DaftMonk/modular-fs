@@ -2,7 +2,6 @@
 
 var express = require('express');
 var controller = require('./thing.controller');
-var fixture = require('./thing.fixture');
 
 var router = express.Router();
 
