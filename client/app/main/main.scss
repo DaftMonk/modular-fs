@@ -1,12 +1,10 @@
-/* Main marketing message and sign up button */
-.jumbotron {
+.sponsor {
     text-align: center;
     border-bottom: 1px solid #e5e5e5;
 }
 
-.jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px;
+.sponsor {
+    margin: 20px 0;
 }
 
 /* Supporting marketing content */
@@ -16,4 +14,24 @@
 
 .marketing p + h4 {
     margin-top: 28px;
+}
+
+#banner {
+    border-bottom: none;
+    margin-top: -20px;
+}
+
+#banner h1 {
+    font-size: 60px;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.hero-unit {
+    position: relative;
+    padding: 30px 15px;
+    color: #F5F5F5;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    background-image: linear-gradient(to bottom,#2880AA 0,#3E7F99 100%);
 }

@@ -35,8 +35,7 @@ module.exports = function (grunt) {
       },
       prod: {
         options: {
-          script: 'dist/server/app.js',
-          node_env: 'production'
+          script: 'dist/server/app.js'
         }
       }
     },
@@ -245,9 +244,7 @@ module.exports = function (grunt) {
       target: {
         src: '<%= yeoman.client %>/index.html',
         ignorePath: '<%= yeoman.client %>/',
-        exclude: [
-          'bootstrap-sass',
-          'bootstrap']
+        exclude: [/bootstrap-sass-official/, /bootstrap.js/]
       }
     },
 
@@ -470,6 +467,10 @@ module.exports = function (grunt) {
     env: {
       test: {
         NODE_ENV: 'test'
+      },
+      prod: {
+        NODE_ENV: 'production',
+        SESSION_SECRET: 'angular-fullstack'
       }
     },
 
@@ -520,7 +521,8 @@ module.exports = function (grunt) {
             '<%= yeoman.client %>/bower_components',
             '<%= yeoman.client %>/app',
             '<%= yeoman.client %>/components'
-          ]
+          ],
+          compass: false
         },
         files: {
           '.tmp/app/app.css' : '<%= yeoman.client %>/app/app.scss'
@@ -644,12 +646,14 @@ module.exports = function (grunt) {
 
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
-      return grunt.task.run(['build', 'express:prod', 'open', 'express-keepalive']);
+      return grunt.task.run(['build', 'env:prod', 'express:prod', 'open', 'express-keepalive']);
     }
 
     if (target === 'debug') {
       return grunt.task.run([
         'clean:server',
+        'injector:less',
+        'injector:sass',
         'concurrent:server',
         'injector',
         'bowerInstall',
@@ -660,6 +664,8 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'injector:less',
+      'injector:sass',
       'concurrent:server',
       'injector',
       'bowerInstall',
@@ -686,6 +692,8 @@ module.exports = function (grunt) {
     else if (target === 'client') {
       return grunt.task.run([
         'clean:server',
+        'injector:less',
+        'injector:sass',
         'concurrent:test',
         'injector',
         'autoprefixer',
@@ -697,6 +705,8 @@ module.exports = function (grunt) {
       return grunt.task.run([
         'clean:server',
         'env:test',
+        'injector:less',
+        'injector:sass',
         'concurrent:test',
         'injector',
         'autoprefixer',
@@ -713,6 +723,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'injector:less',
+    'injector:sass',
     'concurrent:dist',
     'injector',
     'bowerInstall',
