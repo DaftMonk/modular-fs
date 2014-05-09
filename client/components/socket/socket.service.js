@@ -29,26 +29,32 @@ angular.module('ngApp')
     return {
       socket: socket,
 
+      /**
+       * Register listeners to sync a collection with socket.io
+       */
       syncCollection: function(collection, itemName) {
+
+        /**
+         * Syncs item creation/updates on 'model:save'
+         */
         socket.on(itemName + ':save', function(newItem) {
           var oldItem = _.find(collection, { _id: newItem._id });
+          var index = collection.indexOf(oldItem);
 
-          // Update item if it already exists in collection
+          // replace oldItem if it exists
+          // otherwise just add newItem to the collection
           if(oldItem) {
-            var index = collection.indexOf(oldItem);
             collection.splice(index, 1, newItem);
-          }
-
-          // Or just add new item to collection
-          else {
+          } else {
             collection.push(newItem);
           }
         });
 
+        /**
+         * Syncs removed items on 'model:remove'
+         */
         socket.on(itemName + ':remove', function(newItem) {
-          var oldItem = _.find(collection, { _id: newItem._id });
-          var index = collection.indexOf(oldItem);
-          collection.splice(index, 1);
+          _.remove(collection, { _id: newItem._id });
         });
       }
     };
