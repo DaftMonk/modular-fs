@@ -8,14 +8,12 @@ angular.module('ngApp')
     });
 
     $scope.addThing = function() {
-      $http.post('/api/things', { name: 'socket.io', info: new Date().getTime() });
+      if($scope.newThing === '') return;
+      $http.post('/api/things', { name: $scope.newThing });
+      $scope.newThing = '';
     };
 
-    $scope.editThing = function() {
-      $http.put('/api/things/' + $scope.awesomeThings[0]._id, { name: 'socket.io', info: new Date().getTime() });
-    };
-
-    $scope.deleteThing = function() {
-      $http.delete('/api/things/' + $scope.awesomeThings[2]._id);
+    $scope.deleteThing = function(thing) {
+      $http.delete('/api/things/' + thing._id);
     };
   });
