@@ -17,6 +17,7 @@ module.exports = function(config) {
       'client/bower_components/angular-cookies/angular-cookies.js',
       'client/bower_components/angular-sanitize/angular-sanitize.js',
       'client/bower_components/angular-route/angular-route.js',
+      'client/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'client/app/**/*.html',
       'client/app/**/*.js',
       'client/components/**/*.html',
@@ -33,7 +34,7 @@ module.exports = function(config) {
     },
 
     // list of files / patterns to exclude
-    exclude: ['**/*.e2e.js'],
+    exclude: [],
 
     // web server port
     port: 8080,
