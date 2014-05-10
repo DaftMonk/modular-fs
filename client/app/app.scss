@@ -23,7 +23,7 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
 
 // Component styles are injected through grunt
 // injector
+@import 'account/login/login.scss';
 @import 'admin/admin.scss';
-@import 'login/login.scss';
 @import 'main/main.scss';
 // endinjector
