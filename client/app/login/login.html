@@ -29,15 +29,32 @@
           <p class="help-block">{{ errors.other }}</p>
         </div>
 
-        <button type="submit" class="btn btn-lg btn-primary"> Sign in </button>
+        <div>
+          <button class="btn btn-inverse btn-lg btn-login" type="submit">
+            Login
+          </button>
+          <a class="btn btn-default btn-lg btn-register" href="/signup">
+            Register
+          </a>
+        </div>
+
+        <hr>
+
+        <div>
+          <a class="btn btn-facebook" href="" ng-click="loginFacebook()">
+            <i class="fa fa-facebook"></i> Connect with Facebook
+          </a>
+
+          <a class="btn btn-google-plus" href="" ng-click="loginGoogle()">
+            <i class="fa fa-google-plus"></i> Connect with Google+
+          </a>
+
+          <a class="btn btn-twitter" href="" ng-click="loginTwitter()">
+            <i class="fa fa-twitter"></i> Connect with Twitter
+          </a>
+        </div>
       </form>
     </div>
   </div>
-
-  <div class="row">
-    <div class="col-sm-12">
-      <hr>
-      Not registered? <a href="/signup" class="text-center new-account">Create an account.</a>
-    </div>
-  </div>
+  <hr>
 </div>
