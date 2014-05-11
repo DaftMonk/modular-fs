@@ -2,10 +2,10 @@
 
 var express = require('express');
 var passport = require('passport');
-var accessToken = require('../access-token.controller');
+var token = require('../token.controller');
 
 var router = express.Router();
 
-router.post('/', accessToken.authenticate);
+router.post('/', token.authenticate);
 
 module.exports = router;

@@ -2,7 +2,6 @@
 
 var express = require('express');
 var passport = require('passport');
-var accessToken = require('./access-token.controller');
 var config = require('../config');
 var User = require('../api/user/user.model');
 

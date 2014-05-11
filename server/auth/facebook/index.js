@@ -2,7 +2,7 @@
 
 var express = require('express');
 var passport = require('passport');
-var accessToken = require('../access-token.controller');
+var token = require('../token.controller');
 
 var router = express.Router();
 
@@ -16,6 +16,6 @@ router
   .get('/callback', passport.authenticate('facebook', {
     failureRedirect: '/signup',
     session: false
-  }), accessToken.setToken);
+  }), token.setToken);
 
 module.exports = router;
