@@ -9,10 +9,6 @@
 
 var Thing = require('./thing.model');
 
-var handleError = function(res, err) {
-  return res.send(500, err);
-};
-
 /**
  * Get list of things
  */
@@ -64,3 +60,7 @@ exports.destroy = function(req, res) {
     return res.send(204);
   });
 };
+
+function handleError(res, err) {
+  return res.send(500, err);
+}
