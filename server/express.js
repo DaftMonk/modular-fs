@@ -1,29 +1,41 @@
-'use strict';
-
-var express = require('express'),
-    favicon = require('static-favicon'),
-    morgan = require('morgan'),
-    compression = require('compression'),
-    bodyParser = require('body-parser'),
-    methodOverride = require('method-override'),
-    cookieParser = require('cookie-parser'),
-    session = require('express-session'),
-    errorHandler = require('errorhandler'),
-    path = require('path'),
-    config = require('./config');
-
 /**
  * Express configuration
  */
+
+'use strict';
+
+var express = require('express');
+var favicon = require('static-favicon');
+var morgan = require('morgan');
+var compression = require('compression');
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+var cookieParser = require('cookie-parser');
+var errorHandler = require('errorhandler');
+var path = require('path');
+var config = require('./config');
+
 module.exports = function(app) {
   var env = app.get('env');
 
-  if ('development' === env || 'test' === env) {
-    app.use(require('connect-livereload')());
+  app.use(compression());
+  app.use(morgan('dev'));
+  app.use(bodyParser());
+  app.use(methodOverride());
+  app.set('views', config.root + '/server/views');
+  app.engine('html', require('ejs').renderFile);
+  app.set('view engine', 'html');
 
+  if ('production' === env) {
+    app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
+    app.use(express.static(path.join(config.root, 'public')));
+    app.set('appPath', config.root + '/public');
+  }
+
+  if ('development' === env || 'test' === env) {
     // Disable caching of scripts
     app.use(function noCache(req, res, next) {
-      if (req.url.indexOf('.js') === 0) {
+      if (req.url.indexOf('.js') !== -1) {
         res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
         res.header('Pragma', 'no-cache');
         res.header('Expires', 0);
@@ -31,27 +43,10 @@ module.exports = function(app) {
       next();
     });
 
+    app.use(require('connect-livereload')());
     app.use(express.static(path.join(config.root, '.tmp')));
     app.use(express.static(path.join(config.root, 'client')));
     app.set('appPath', 'client');
-  }
-
-  if ('production' === env) {
-    app.use(compression());
-    app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
-    app.use(express.static(path.join(config.root, 'public')));
-    app.set('appPath', config.root + '/public');
-  }
-
-  app.set('views', config.root + '/server/views');
-  app.engine('html', require('ejs').renderFile);
-  app.set('view engine', 'html');
-  app.use(morgan('dev'));
-  app.use(bodyParser());
-  app.use(methodOverride());
-
-  // Error handler - has to be last
-  if ('development' === app.get('env')) {
-    app.use(errorHandler());
+    app.use(errorHandler()); // Error handler - has to be last
   }
 };

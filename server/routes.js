@@ -1,10 +1,11 @@
+/**
+ * Main application routes
+ */
+
 'use strict';
 
 var errors = require('./components/errors/errors');
 
-/**
- * Main application routes
- */
 module.exports = function(app) {
 
   // Use component routing
@@ -15,7 +16,7 @@ module.exports = function(app) {
    .get(errors[404]);
 
   // All other routes should redirect to the index.html
-  app.route('/')
+  app.route('/*')
     .get(function(req, res) {
       res.sendfile(app.get('appPath') + '/index.html');
     });

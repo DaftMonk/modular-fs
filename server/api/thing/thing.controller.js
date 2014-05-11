@@ -10,10 +10,6 @@
 var _ = require('lodash');
 var Thing = require('./thing.model');
 
-var handleError = function(res, err) {
-  return res.send(500, err);
-};
-
 /**
  * Get list of things
  */
@@ -74,3 +70,7 @@ exports.destroy = function(req, res) {
     });
   });
 };
+
+function handleError(res, err) {
+  return res.send(500, err);
+}
