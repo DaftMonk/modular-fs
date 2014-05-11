@@ -1,17 +1,17 @@
-// Using Rails-like standard naming convention for endpoints.
-// GET     /things              ->  index
-// POST    /things              ->  create
-// GET     /things/:id          ->  show
-// PUT     /things/:id          ->  update
-// DELETE  /things/:id          ->  destroy
+/**
+ * Using Rails-like standard naming convention for endpoints.
+ * GET     /things              ->  index
+ * POST    /things              ->  create
+ * GET     /things/:id          ->  show
+ * PUT     /things/:id          ->  update
+ * DELETE  /things/:id          ->  destroy
+ */
 
 'use strict';
 
 var Thing = require('./thing.model');
 
-/**
- * Get list of things
- */
+// Get list of things
 exports.index = function(req, res) {
   return Thing.find(function (err, things) {
     if(err) { return handleError(res, err); }
@@ -19,9 +19,7 @@ exports.index = function(req, res) {
   });
 };
 
-/**
- * Get a single thing
- */
+// Get a single thing
 exports.show = function(req, res) {
   return Thing.findById(req.params.id, function (err, thing) {
     if(err) { return handleError(res, err); }
@@ -30,9 +28,7 @@ exports.show = function(req, res) {
   });
 };
 
-/**
- * Creates a new thing in the DB.
- */
+// Creates a new thing in the DB.
 exports.create = function(req, res) {
   return Thing.create(req.body, function(err, thing) {
     if(err) { return handleError(res, err); }
@@ -40,9 +36,7 @@ exports.create = function(req, res) {
   });
 };
 
-/**
- * Updates an existing thing in the DB.
- */
+// Updates an existing thing in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; } // Prevent mongo 'Mod on _id not allowed' error
   Thing.findByIdAndUpdate(req.params.id, req.body, function(err, thing) {
@@ -51,9 +45,7 @@ exports.update = function(req, res) {
   });
 };
 
-/**
- * Deletes a thing from the DB.
- */
+// Deletes a thing from the DB.
 exports.destroy = function(req, res) {
   Thing.findByIdAndRemove(req.params.id, function(err, thing) {
     if(err) { return handleError(res, err); }
