@@ -33,16 +33,6 @@ module.exports = function(app) {
   }
 
   if ('development' === env || 'test' === env) {
-    // Disable caching of scripts
-    app.use(function noCache(req, res, next) {
-      if (req.url.indexOf('.js') !== -1) {
-        res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
-        res.header('Pragma', 'no-cache');
-        res.header('Expires', 0);
-      }
-      next();
-    });
-
     app.use(require('connect-livereload')());
     app.use(express.static(path.join(config.root, '.tmp')));
     app.use(express.static(path.join(config.root, 'client')));
