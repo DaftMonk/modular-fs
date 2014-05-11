@@ -6,15 +6,7 @@
 
 var thing = require('./thing.model');
 
-function onSave(socket, doc, cb) {
-  socket.emit('thing:save', doc);
-}
-
-function onRemove(socket, doc, cb) {
-  socket.emit('thing:remove', doc);
-}
-
-function register(socket) {
+exports.register = function(socket) {
   thing.schema.post('save', function (doc) {
     onSave(socket, doc);
   });
@@ -23,5 +15,10 @@ function register(socket) {
   });
 }
 
-// Public API
-exports.register = register;
+function onSave(socket, doc, cb) {
+  socket.emit('thing:save', doc);
+}
+
+function onRemove(socket, doc, cb) {
+  socket.emit('thing:remove', doc);
+}

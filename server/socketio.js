@@ -4,7 +4,6 @@
 
 'use strict';
 
-// Setup socket.io
 module.exports = function (socketio) {
   // The amount of detail that the server should output to the logger.
   // 0 - error
