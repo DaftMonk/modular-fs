@@ -10,7 +10,7 @@ var express = require('express'),
     session = require('express-session'),
     errorHandler = require('errorhandler'),
     path = require('path'),
-    config = require('./');
+    config = require('./config');
 
 /**
  * Express configuration

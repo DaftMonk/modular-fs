@@ -1,11 +1,11 @@
 /**
  * Populate DB with sample data
- * to disable, edit config/env/all.js, and set `sampleData: false`
+ * to disable, edit config/env/index.js, and set `sampleData: false`
  */
 
 'use strict';
 
-var Thing = require('../api/thing/thing.model');
+var Thing = require('../../api/thing/thing.model');
 
 Thing.find({}).remove(function() {
   Thing.create({
