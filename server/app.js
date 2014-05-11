@@ -6,6 +6,7 @@
 
 var express = require('express');
 var mongoose = require('mongoose');
+var passport = require('passport');
 
 // Set default node environment to development
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -17,9 +18,6 @@ var db = mongoose.connect(config.mongo.uri, config.mongo.options);
 
 // Populate DB with sample data
 if(config.sampleData) { require('./config/sampledata'); }
-
-// Passport Configuration
-var passport = require('./config/passport');
 
 // Setup server
 var app = express();

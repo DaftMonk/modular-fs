@@ -18,7 +18,7 @@ angular.module('ngApp')
         var cb = callback || angular.noop;
         var deferred = $q.defer();
 
-        $http.post('/auth/access-token', {
+        $http.post('/auth/local', {
           email: user.email,
           password: user.password
         }).
