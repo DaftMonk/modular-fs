@@ -15,7 +15,7 @@ var session = require('express-session');
 var errorHandler = require('errorhandler');
 var path = require('path');
 var passport = require('passport');
-var config = require('./');
+var config = require('./config');
 var mongoStore = require('connect-mongo')(session);
 
 module.exports = function(app) {

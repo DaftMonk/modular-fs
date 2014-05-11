@@ -2,8 +2,8 @@
 
 var ejwt = require('express-jwt');
 var compose = require('composable-middleware');
-var User = require('../api/user/user.model');
-var config = require('./');
+var User = require('../../api/user/user.model');
+var config = require('../../config');
 
 /**
  * Attaches a user to the request if authenticated

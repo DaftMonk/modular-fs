@@ -3,7 +3,7 @@
 var express = require('express');
 var controller = require('./user.controller');
 var config = require('../../config');
-var access = require('../../config/access');
+var access = require('../../components/access/access');
 
 var router = express.Router();
 

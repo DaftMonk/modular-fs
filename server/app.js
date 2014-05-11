@@ -17,12 +17,12 @@ var config = require('./config');
 var db = mongoose.connect(config.mongo.uri, config.mongo.options);
 
 // Populate DB with sample data
-if(config.sampleData) { require('./config/sampledata'); }
+if(config.sampleData) { require('./config/helpers/sample_data'); }
 
 // Setup server
 var app = express();
 var server = require('http').createServer(app);
-require('./config/express')(app);
+require('./express')(app);
 require('./routes')(app);
 
 // Start server

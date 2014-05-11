@@ -472,7 +472,7 @@ module.exports = function (grunt) {
         NODE_ENV: 'production',
         SESSION_SECRET: 'angular-fullstack'
       },
-      all: require('./server/config/env.local.json')
+      all: require('./server/config/env/process_env')
     },
 
     // Compiles Jade to html
