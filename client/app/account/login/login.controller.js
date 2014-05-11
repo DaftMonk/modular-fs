@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ngApp')
-  .controller('LoginCtrl', function ($scope, Auth, $location) {
+  .controller('LoginCtrl', function ($scope, Auth, $location, $window) {
     $scope.user = {};
     $scope.errors = {};
 
@@ -21,5 +21,9 @@ angular.module('ngApp')
           $scope.errors.other = err.message;
         });
       }
+    };
+
+    $scope.loginOauth = function(provider) {
+      $window.location.href = '/auth/' + provider;
     };
   });

@@ -92,3 +92,10 @@ exports.me = function(req, res, next) {
     res.json(user);
   });
 };
+
+/**
+ * Authentication callback
+ */
+exports.authCallback = function(req, res, next) {
+  res.redirect('/');
+};

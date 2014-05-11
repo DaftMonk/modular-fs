@@ -18,5 +18,20 @@ module.exports = {
         safe: true
       }
     }
+  },
+  facebook: {
+    clientID: '',
+    clientSecret: '',
+    callbackURL: 'http://localhost:9000/auth/facebook/callback'
+  },
+  twitter: {
+    clientID: '',
+    clientSecret: '',
+    callbackURL: 'http://localhost:9000/auth/twitter/callback'
+  },
+  google: {
+    clientID: '',
+    clientSecret: '',
+    callbackURL: 'http://localhost:9000/auth/google/callback'
   }
 };

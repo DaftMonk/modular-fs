@@ -12,7 +12,7 @@ angular.module('ngApp')
         controller: 'SignupCtrl'
       })
       .when('/settings', {
-        templateUrl: 'app/settings/settings.html',
+        templateUrl: 'app/account/settings/settings.html',
         controller: 'SettingsCtrl',
         authenticate: true
       });

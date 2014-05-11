@@ -16,6 +16,7 @@ var errorHandler = require('errorhandler');
 var path = require('path');
 var passport = require('passport');
 var config = require('./');
+var mongoStore = require('connect-mongo')(session);
 
 module.exports = function(app) {
   var env = app.get('env');
@@ -53,6 +54,17 @@ module.exports = function(app) {
   app.use(methodOverride());
   app.use(passport.initialize());
   app.use(cookieParser());
+
+  // Persist sessions with mongoStore
+  app.use(session({
+    secret: config.secrets.session,
+    store: new mongoStore({
+      url: config.mongo.uri,
+      collection: 'sessions'
+    }, function () {
+      console.log("db connection open");
+    })
+  }));
 
   // Error handler - has to be last
   if ('development' === app.get('env')) {
