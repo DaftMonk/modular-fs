@@ -12,9 +12,7 @@
 var _ = require('lodash');
 var Thing = require('./thing.model');
 
-/**
- * Get list of things
- */
+// Get list of things
 exports.index = function(req, res) {
   Thing.find(function (err, things) {
     if(err) { return handleError(res, err); }
@@ -22,9 +20,7 @@ exports.index = function(req, res) {
   });
 };
 
-/**
- * Get a single thing
- */
+// Get a single thing
 exports.show = function(req, res) {
   Thing.findById(req.params.id, function (err, thing) {
     if(err) { return handleError(res, err); }
@@ -33,9 +29,7 @@ exports.show = function(req, res) {
   });
 };
 
-/**
- * Creates a new thing in the DB.
- */
+// Creates a new thing in the DB.
 exports.create = function(req, res) {
   Thing.create(req.body, function(err, thing) {
     if(err) { return handleError(res, err); }
@@ -43,9 +37,7 @@ exports.create = function(req, res) {
   });
 };
 
-/**
- * Updates an existing thing in the DB.
- */
+// Updates an existing thing in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
   Thing.findById(req.params.id, function (err, thing) {
@@ -59,9 +51,7 @@ exports.update = function(req, res) {
   });
 };
 
-/**
- * Deletes a thing from the DB.
- */
+// Deletes a thing from the DB.
 exports.destroy = function(req, res) {
   Thing.findById(req.params.id, function (err, thing) {
     if(err) { return handleError(res, err); }
