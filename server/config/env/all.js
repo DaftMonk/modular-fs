@@ -20,18 +20,18 @@ module.exports = {
     }
   },
   facebook: {
-    clientID: '',
-    clientSecret: '',
+    clientID: process.env.FACEBOOK_ID,
+    clientSecret: process.env.FACEBOOK_SECRET,
     callbackURL: 'http://localhost:9000/auth/facebook/callback'
   },
   twitter: {
-    clientID: '',
-    clientSecret: '',
+    clientID: process.env.TWITTER_ID,
+    clientSecret: process.env.TWITTER_SECRET,
     callbackURL: 'http://localhost:9000/auth/twitter/callback'
   },
   google: {
-    clientID: '',
-    clientSecret: '',
+    clientID: process.env.GOOGLE_ID,
+    clientSecret: process.env.GOOGLE_SECRET,
     callbackURL: 'http://localhost:9000/auth/google/callback'
   }
 };
