@@ -1,29 +1,34 @@
+/**
+ * Socket.io configuration
+ */
+
 'use strict';
 
-var socketio = null;
-
-function onInfo(socket, data) {
-  console.info('[%s] %s', socket.address, JSON.stringify(data, null, 2));
-}
-
+// When the user disconnects.. perform this
 function onDisconnect(socket) {
-  //...
 }
 
+// When the user connects.. perform this
 function onConnect(socket) {
+   // When the client emits 'info', this listens and executes
   socket.on('info', function (data) {
-    onInfo(socket, data);
+    console.info('[%s] %s', socket.address, JSON.stringify(data, null, 2));
   });
 
-  require('../api/thing/thing.socket').register(socket);
-  // Add more sockets above here
+  // Register listeners for components
+  require('./api/thing/thing.socket').register(socket);
 }
 
-exports.register = function (socketio) {
+// Setup socket.io
+module.exports = function (socketio) {
+  // The amount of detail that the server should output to the logger.
+  // 0 - error
+  // 1 - warn
+  // 2 - info
+  // 3 - debug
   socketio.set('log level', 2);
 
   socketio.sockets.on('connection', function (socket) {
-    // Attach variables.
     socket.address = socket.handshake.address.address + ':' +
                      socket.handshake.address.port;
     socket.connectedAt = new Date();
