@@ -471,7 +471,8 @@ module.exports = function (grunt) {
       prod: {
         NODE_ENV: 'production',
         SESSION_SECRET: 'angular-fullstack'
-      }
+      },
+      all: require('./server/config/env/process_env')
     },
 
     // Compiles Jade to html
@@ -646,12 +647,13 @@ module.exports = function (grunt) {
 
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
-      return grunt.task.run(['build', 'env:prod', 'express:prod', 'open', 'express-keepalive']);
+      return grunt.task.run(['env:all', 'build', 'env:prod', 'express:prod', 'open', 'express-keepalive']);
     }
 
     if (target === 'debug') {
       return grunt.task.run([
         'clean:server',
+        'env:all',
         'injector:less',
         'injector:sass',
         'concurrent:server',
@@ -664,6 +666,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'env:all',
       'injector:less',
       'injector:sass',
       'concurrent:server',
@@ -684,6 +687,7 @@ module.exports = function (grunt) {
   grunt.registerTask('test', function(target) {
     if (target === 'server') {
       return grunt.task.run([
+        'env:all',
         'env:test',
         'mochaTest'
       ]);
@@ -692,6 +696,7 @@ module.exports = function (grunt) {
     else if (target === 'client') {
       return grunt.task.run([
         'clean:server',
+        'env:all',
         'injector:less',
         'injector:sass',
         'concurrent:test',
@@ -704,6 +709,7 @@ module.exports = function (grunt) {
     else if (target === 'e2e') {
       return grunt.task.run([
         'clean:server',
+        'env:all',
         'env:test',
         'injector:less',
         'injector:sass',
