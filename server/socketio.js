@@ -4,6 +4,8 @@
 
 'use strict';
 
+var config = require('./config');
+
 module.exports = function (socketio) {
   // The amount of detail that the server should output to the logger.
   // 0 - error
@@ -11,6 +13,16 @@ module.exports = function (socketio) {
   // 2 - info
   // 3 - debug
   socketio.set('log level', 2);
+
+  // We can authenticate socket.io users and access their token through socket.handshake.decoded_token
+  //
+  // 1. You will need to send the token in `client/components/socket/socket.service.js`
+  //
+  // 2. Require authentication here:
+  // socketio.set('authorization', require('socketio-jwt').authorize({
+  //   secret: config.secrets.session,
+  //   handshake: true
+  // }));
 
   socketio.sockets.on('connection', function (socket) {
     socket.address = socket.handshake.address.address + ':' +

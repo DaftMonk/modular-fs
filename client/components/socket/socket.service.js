@@ -10,8 +10,13 @@ angular.module('ngApp')
 
     var ioSocket = io.connect('', {
       'force new connection': true,
+
       'max reconnection attempts': Infinity,
-      'reconnection limit': 10 * 1000
+
+      'reconnection limit': 10 * 1000,
+
+      // Send auth token on connection
+      // 'query': 'token=' + Auth.getToken()
     });
 
     retryTimer = setInterval(function () {

@@ -115,6 +115,13 @@ angular.module('ngApp')
        */
       isAdmin: function() {
         return currentUser.role === 'admin';
+      },
+
+      /**
+       * Get auth token
+       */
+      getToken: function() {
+        return $cookieStore.get('token');
       }
     };
   });

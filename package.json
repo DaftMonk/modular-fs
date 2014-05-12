@@ -23,7 +23,8 @@
     "express-jwt": "^0.1.3",
     "composable-middleware": "^0.3.0",
     "connect-mongo": "^0.4.1",
-    "socket.io": "~0.9.16"
+    "socket.io": "~0.9.16",
+    "socketio-jwt": "^2.0.2"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
