@@ -21,39 +21,14 @@ var mongoStore = require('connect-mongo')(session);
 module.exports = function(app) {
   var env = app.get('env');
 
-  if ('development' === env || 'test' === env) {
-    app.use(require('connect-livereload')());
-
-    // Disable caching of scripts
-    app.use(function noCache(req, res, next) {
-      if (req.url.indexOf('.js') === 0) {
-        res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
-        res.header('Pragma', 'no-cache');
-        res.header('Expires', 0);
-      }
-      next();
-    });
-
-    app.use(express.static(path.join(config.root, '.tmp')));
-    app.use(express.static(path.join(config.root, 'client')));
-    app.set('appPath', 'client');
-  }
-
-  if ('production' === env) {
-    app.use(compression());
-    app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
-    app.use(express.static(path.join(config.root, 'public')));
-    app.set('appPath', config.root + '/public');
-  }
-
   app.set('views', config.root + '/server/views');
   app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'html');
-  app.use(morgan('dev'));
+  app.use(compression());
   app.use(bodyParser());
   app.use(methodOverride());
-  app.use(passport.initialize());
   app.use(cookieParser());
+  app.use(passport.initialize());
 
   // Persist sessions with mongoStore
   app.use(session({
@@ -66,8 +41,19 @@ module.exports = function(app) {
     })
   }));
 
-  // Error handler - has to be last
-  if ('development' === app.get('env')) {
-    app.use(errorHandler());
+  if ('production' === env) {
+    app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
+    app.use(express.static(path.join(config.root, 'public')));
+    app.set('appPath', config.root + '/public');
+    app.use(morgan('dev'));
+  }
+
+  if ('development' === env || 'test' === env) {
+    app.use(require('connect-livereload')());
+    app.use(express.static(path.join(config.root, '.tmp')));
+    app.use(express.static(path.join(config.root, 'client')));
+    app.set('appPath', 'client');
+    app.use(morgan('dev'));
+    app.use(errorHandler()); // Error handler - has to be last
   }
 };
