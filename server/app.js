@@ -20,6 +20,8 @@ if(config.sampleData) { require('./config/helpers/sample_data'); }
 // Setup server
 var app = express();
 var server = require('http').createServer(app);
+var socketio = require('socket.io').listen(server);
+require('./socketio')(socketio);
 require('./express')(app);
 require('./routes')(app);
 
