@@ -15,7 +15,7 @@ describe('Main View', function() {
   });
 
   it('should render awesomeThings', function() {
-    expect(page.firstAwesomeThingNameEl.getText()).toBe('Development Tools');
+    expect(page.firstAwesomeThingNameEl.getText()).toContain('Development Tools');
     page.awesomeThingsCount.then(function(count) {
       expect(count).toBe(6);
     });
