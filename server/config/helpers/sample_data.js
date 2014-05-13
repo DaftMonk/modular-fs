@@ -9,19 +9,22 @@ var Thing = require('../../api/thing/thing.model');
 
 Thing.find({}).remove(function() {
   Thing.create({
-    name : 'HTML5 Boilerplate',
-    info : 'HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.'
+    name : 'Development Tools',
+    info : 'Integration with popular tools such as Bower, Grunt, Karma, JSHint, Node Inspector, Livereload, Protractor, Jade, SCSS, CoffeScript, and LESS.'
   }, {
-    name : 'AngularJS',
-    info : 'AngularJS is a toolset for building the framework most suited to your application development.'
+    name : 'Server and Client integration',
+    info : 'Built with a powerful and fun stack: MongoDB, Express, AngularJS, and Node.'
   }, {
-    name : 'Karma',
-    info : 'Spectacular Test Runner for JavaScript.'
-  }, {
-    name : 'Express',
-    info : 'Flexible and minimalist web application framework for node.js.'
-  }, {
-    name : 'MongoDB + Mongoose',
-    info : 'An excellent document database. Combined with Mongoose to simplify adding validation and business logic.'
+    name : 'Smart Build System',
+    info : 'Build system ignores `spec` files, allowing you to keep tests alongside code. Automatic injection of scripts and styles into your index.html'
+  },  {
+    name : 'Modular Structure',
+    info : 'Best practice client and server structures allow for more code reusability and maximum scalability'
+  },  {
+    name : 'Optimized Build',
+    info : 'Build process packs up your templates as a single JavaScript payload, minifies your scripts/css/images, and rewrites asset names for caching.'
+  },{
+    name : 'Deployment Ready',
+    info : 'Easily deploy your app to Heroku or Openshift with the :heroku and :openshift subgenerators'
   });
 });
