@@ -10,6 +10,7 @@ angular.module('ngApp')
     $scope.isLoggedIn = Auth.isLoggedIn;
     $scope.isAdmin = Auth.isAdmin;
     $scope.getCurrentUser = Auth.getCurrentUser;
+    $scope.isCollapsed = true;
 
     $scope.logout = function() {
       Auth.logout();
