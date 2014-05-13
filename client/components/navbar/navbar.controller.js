@@ -7,6 +7,7 @@ angular.module('ngApp')
       'link': '/'
     }];
 
+    $scope.isCollapsed = true;
     $scope.isActive = function(route) {
       return route === $location.path();
     };
