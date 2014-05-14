@@ -121,13 +121,13 @@ module.exports = function (grunt) {
           '<%= yeoman.client %>/{app,components}/**/*.{coffee,litcoffee,coffee.md}',
           '!<%= yeoman.client %>/{app,components}/**/*.spec.{coffee,litcoffee,coffee.md}'
         ],
-        tasks: ['newer:coffee:compile']
+        tasks: ['newer:coffee:server']
       },
       coffeeTest: {
         files: [
           '<%= yeoman.client %>/{app,components}/**/*.spec.{coffee,litcoffee,coffee.md}'
         ],
-        tasks: ['newer:coffee:compile', 'karma']
+        tasks: ['newer:coffee:test', 'karma']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -414,13 +414,13 @@ module.exports = function (grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
-        'coffee',
+        'coffee:server',
         'jade',
         'sass',
         'less'
       ],
       test: [
-        'coffee',
+        'coffee:test',
         'jade',
         'sass',
         'less'
@@ -435,7 +435,7 @@ module.exports = function (grunt) {
         }
       },
       dist: [
-        'coffee',
+        'coffee:server',
         'jade',
         'sass',
         'less',
@@ -509,7 +509,19 @@ module.exports = function (grunt) {
         sourceMap: true,
         sourceRoot: ''
       },
-      compile: {
+      server: {
+        files: [{
+          expand: true,
+          cwd: 'client',
+          src: [
+            '{app,components}/**/*.coffee',
+            '!{app,components}/**/*.spec.coffee'
+          ],
+          dest: '.tmp',
+          ext: '.js'
+        }]
+      },
+      test: {
         files: [{
           expand: true,
           cwd: 'client',
